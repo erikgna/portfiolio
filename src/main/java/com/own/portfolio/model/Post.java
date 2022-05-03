@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Post {
-    private long id;
+    private int id;
     private String image;
     private String title;
     private String description;

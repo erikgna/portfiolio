@@ -1,30 +1,29 @@
 package com.own.portfolio.service;
 
-import com.own.portfolio.database.PostDAO;
 import com.own.portfolio.model.Post;
+import com.own.portfolio.database.PostRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
 
 @Service
+public class PostService{
+    private final PostRepository postRepository = new PostRepository();
 
-public class PostService {
-    private PostDAO postDAO;
-
-    public Iterable<Post> allPosts(){
-        return postDAO.findAll();
+    public ArrayList<Post> allPosts(){
+        return postRepository.allPosts();
     }
 
-    public Optional<Post> onePost(int id){
-        return postDAO.findById(id);
+    public Post onePost(int id){
+        return postRepository.onePost(id);
     }
 
-    public void newPost(Post post){
-        postDAO.save(post);
+    public void savePost(Post post){
+        postRepository.savePost(post);
     }
 
     public void editPost(Post post, int id){
-        Post oldPost = postDAO.findById(id).get();
+        Post oldPost = postRepository.onePost(id);
 
         oldPost.setImage(post.getImage());
         oldPost.setTitle(post.getTitle());
@@ -32,10 +31,10 @@ public class PostService {
         oldPost.setLikes(post.getLikes());
         oldPost.setDislikes(post.getDislikes());
 
-        postDAO.save(oldPost);
+        postRepository.editPost(oldPost, id);
     }
 
     public void deletePost(int id){
-        postDAO.deleteById(id);
+        postRepository.deletePost(id);
     }
 }

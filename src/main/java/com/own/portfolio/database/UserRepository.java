@@ -6,9 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class UserDAO {
+public class UserRepository {
     Connection conn = StartConnection.getConnection();
-    public User login(String email) {
+    public User oneUser(String email) {
         try {
             String sql = "SELECT * FROM users WHERE email = ?";
 
@@ -54,12 +54,12 @@ public class UserDAO {
 
     public boolean editUser(User user){
         try{
-            String sql = "UPDATE users SET name = ?, password = ? WHERE email = ?";
+            String sql = "UPDATE users SET name = ?, access_token = ? WHERE email = ?";
 
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, user.getName());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getEmail());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getAccessToken());
 
             statement.executeUpdate();
 
@@ -70,4 +70,22 @@ public class UserDAO {
         }
         return false;
     }
+    public boolean editPassword(User user){
+        try{
+            String sql = "UPDATE users SET password = ? WHERE email = ?";
+
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, user.getPassword());
+            statement.setString(2, user.getEmail());
+
+            statement.executeUpdate();
+
+            return true;
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
+
 }
