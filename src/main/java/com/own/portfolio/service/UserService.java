@@ -3,74 +3,40 @@ package com.own.portfolio.service;
 import com.own.portfolio.database.UserRepository;
 import com.own.portfolio.model.User;
 import com.own.portfolio.utils.Mail;
+import com.own.portfolio.utils.Password;
+import com.own.portfolio.utils.Token;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 @Service
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
-    public String login(String email, String password){
-        try{
-            User user = userRepository.oneUser(email);
-            System.out.println(password);
-            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
-            byte[] messageDigest = algorithm.digest(password.getBytes(StandardCharsets.UTF_8));
-
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : messageDigest) {
-                hexString.append(String.format("%02X", 0xFF & b));
-            }
-            String passwordHex = hexString.toString();
-
-            if(passwordHex.equals(user.getPassword())){
-                return "token";
-            }
+    public String login(String email, String password) throws NoSuchAlgorithmException, SQLException {
+        final String hashedPassword = Password.getHashedPassword(password);
+        final User dbUser = userRepository.oneUser(email);
+        if(Objects.equals(hashedPassword, dbUser.getPassword())){
+            return Token.getToken(dbUser.toString());
         }
-        catch (Exception e){
-            return "null";
-        }
-        return "null";
+        return null;
     }
 
-    public boolean createUser(User user) throws NoSuchAlgorithmException {
+    public void createUser(User user) throws NoSuchAlgorithmException, SQLException {
         if(Objects.equals(user.getPassword(), user.getConfirmPassword())){
-            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
-            byte[] messageDigest = algorithm.digest(user.getPassword().getBytes(StandardCharsets.UTF_8));
-
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : messageDigest) {
-                hexString.append(String.format("%02X", 0xFF & b));
-            }
-            String passwordHex = hexString.toString();
-
-            user.setPassword(passwordHex);
-
-            return userRepository.createUser(user);
+            user.setPassword(Password.getHashedPassword(user.getPassword()));
+            userRepository.createUser(user);
         }
-        return false;
     }
 
-    public boolean editUser(User user) throws NoSuchAlgorithmException {
-        if(user.getPassword() != null && Objects.equals(user.getPassword(), user.getConfirmPassword())){
-            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
-            byte[] messageDigest = algorithm.digest(user.getPassword().getBytes(StandardCharsets.UTF_8));
-
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : messageDigest) {
-                hexString.append(String.format("%02X", 0xFF & b));
-            }
-            String passwordHex = hexString.toString();
-
-            user.setPassword(passwordHex);
-
-            return userRepository.editUser(user);
+    public void editUser(User user) throws NoSuchAlgorithmException, SQLException {
+        final String hashedPassword = Password.getHashedPassword(user.getPassword());
+        final User oldUser = userRepository.oneUser(user.getEmail());
+        if(Objects.equals(hashedPassword, oldUser.getPassword())){
+            userRepository.editUser(user);
         }
-        return false;
     }
 
     public String changeToken(User user){
@@ -78,10 +44,9 @@ public class UserService {
         return mail.sendMail(user);
     }
 
-    public boolean changePassword(User user){
+    public void changePassword(User user) throws SQLException {
         if(Objects.equals(userRepository.oneUser(user.getEmail()).getAccessToken(), user.getAccessToken())){
-            if(Objects.equals(user.getPassword(), user.getConfirmPassword())){ return userRepository.editPassword(user); }
+            if(Objects.equals(user.getPassword(), user.getConfirmPassword())){ userRepository.editPassword(user); }
         }
-        return false;
     }
 }

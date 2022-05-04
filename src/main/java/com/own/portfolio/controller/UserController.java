@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 @RestController
 public class UserController {
@@ -16,7 +18,7 @@ public class UserController {
 
     @PostMapping("/user/login")
     @ResponseBody
-    public ResponseEntity<String> findOneUser(@RequestBody User user){
+    public ResponseEntity<String> findOneUser(@RequestBody User user) throws SQLException, NoSuchAlgorithmException {
         return ResponseEntity.ok(userService.login(user.getEmail(), user.getPassword()));
     }
 
@@ -24,10 +26,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<User> createUser(@RequestBody User user){
         try{
-            boolean response = userService.createUser(user);
-            if (!response){
-                return ResponseEntity.status(400).body(null);
-            }
+            userService.createUser(user);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/").build().toUri();
             return ResponseEntity.created(uri).body(null);
         }
@@ -40,10 +39,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<User> editUser(@RequestBody User user){
         try{
-            boolean response = userService.editUser(user);
-            if (!response){
-                return ResponseEntity.status(400).body(null);
-            }
+            userService.editUser(user);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/").build().toUri();
             return ResponseEntity.created(uri).body(null);
         }
@@ -68,9 +64,8 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> changePassword(@RequestBody User user){
         try{
-            boolean res = userService.changePassword(user);
-            if(res){ return ResponseEntity.status(200).body(null); }
-            return ResponseEntity.status(400).body("Ops, something went wrong!");
+            userService.changePassword(user);
+            return ResponseEntity.status(200).body(null);
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());

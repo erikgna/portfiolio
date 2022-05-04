@@ -2,9 +2,6 @@ package com.own.portfolio.utils;
 
 import com.own.portfolio.model.User;
 import com.own.portfolio.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -12,12 +9,11 @@ import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class Mail {
-    private static final Key KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     Properties prop = new Properties();
     public String sendMail(User user){
         try{
@@ -54,13 +50,13 @@ public class Mail {
         }
         catch (MessagingException e){
             e.printStackTrace();
-        } catch (NoSuchAlgorithmException | IOException e) {
+        } catch (NoSuchAlgorithmException | IOException | SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
 
     static public String emailToken(String email) {
-        return Jwts.builder().setSubject(email).signWith(KEY).compact();
+        return Token.getToken(email);
     }
 }
