@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { UserInterface } from "../../interfaces/user";
 
-// import { useDispatch, useSelector } from 'react-redux'
-// import { bindActionCreators } from 'redux'
-// import { actionCreators, State } from "../../state";
-
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../features/userSlice";
-import { RootState } from "../../features/store";
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actionCreators, State } from "../../state";
 
 export const Login = () => {
-    // const dispatch = useDispatch();
     const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => state.user);
-
-    // const { login } = bindActionCreators(actionCreators, dispatch);
-    // const user = useSelector((state: State) => state.user)
+    const { login } = bindActionCreators(actionCreators, dispatch);
+    const user = useSelector((state: State) => state.user)
 
     const [loginForm, setLoginForm] = useState<UserInterface>({ 
         id: 0, 
@@ -35,10 +28,7 @@ export const Login = () => {
     const submit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        // login(loginForm);
-        // console.log(user);
-
-        dispatch(login(loginForm))
+        login(loginForm);
         console.log(user);
     }
 
