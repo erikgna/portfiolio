@@ -1,22 +1,45 @@
-import React, { useContext, useState } from "react"
-import { UserContext } from "../../contexts/user_context"
+import React, { useState } from "react";
+import { UserInterface } from "../../interfaces/user";
 
-import { LoginInterface } from "../../interfaces/user"
+// import { useDispatch, useSelector } from 'react-redux'
+// import { bindActionCreators } from 'redux'
+// import { actionCreators, State } from "../../state";
+
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../features/userSlice";
+import { RootState } from "../../features/store";
 
 export const Login = () => {
-    const [login, setLogin] = useState<LoginInterface>({ email: '', password: '' })
-    const name = useContext(UserContext)
+    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user);
+
+    // const { login } = bindActionCreators(actionCreators, dispatch);
+    // const user = useSelector((state: State) => state.user)
+
+    const [loginForm, setLoginForm] = useState<UserInterface>({ 
+        id: 0, 
+        name: '',
+        email: '', 
+        password: '', 
+        confirmPassword: '' ,
+        accessToken: '' 
+    })
 
     const inputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()
 
-        setLogin({ ...login, [event.target.name]: event.target.value })
+        setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
     }
 
     const submit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        console.log(name)
+        // login(loginForm);
+        // console.log(user);
+
+        dispatch(login(loginForm))
+        console.log(user);
     }
 
     return (

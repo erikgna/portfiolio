@@ -1,7 +1,4 @@
-import { useContext } from 'react'
-
-import { AiFillLike, AiFillDislike } from 'react-icons/ai'
-import { ThemeContext } from '../../contexts/post_context'
+import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 
 const Post = () => {
   return (
@@ -33,19 +30,12 @@ const Post = () => {
 }
 
 export const Posts = () => {
-  const { dark, toggleDark } = useContext(ThemeContext)
-
-  const teste = () => {
-    console.log(dark)
-    toggleDark?.()
-  }
-
   return (
     <div>
       <div>
         <Post />
       </div>
-      <button onClick={() => teste()}>This gotta</button>
+      <button>This gotta</button>
     </div>
   )
 }

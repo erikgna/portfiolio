@@ -1,14 +1,14 @@
 import React, { useState } from "react"
-
-import { RegisterInterface } from "../../interfaces/user"
+import { UserInterface } from "../../interfaces/user"
 
 export const Register = () => {
-    const [register, setRegister] = useState<RegisterInterface>({ 
-        fullName: '',
+    const [register, setRegister] = useState<UserInterface>({
+        id: 0, 
+        name: '',
         email: '', 
-        phone: '', 
         password: '', 
-        confirmPassword: '' 
+        confirmPassword: '' ,
+        accessToken: '' 
     })
     
     const inputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
