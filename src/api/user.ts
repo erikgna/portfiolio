@@ -1,11 +1,11 @@
 import api from ".";
 
-import { UserInterface } from '../interfaces/user'
+import { UserInterface } from '../interfaces/user';
 
-export const signin = (login:UserInterface) => api.post('/', login)
-export const signup = (register:UserInterface) => api.post('', register)
+export const APISignin = (login:UserInterface) => api.post('/user/login', login);
+export const APISignup = (register:UserInterface) => api.post('/user/register', register);
 
-export const editUser = (options:UserInterface, email:string) => api.put(`/${email}`, options)
-export const changePassword = (user:UserInterface) => api.put(`/`, user)
+export const APIEditUser = (options:UserInterface, email:string) => api.put(`/user/edit-user`, options);
+export const APIChangePassword = (user:UserInterface) => api.post("/user/password-token", user);
 
-export const changeToken = (user:UserInterface) => api.post(`/`, user)   
+export const APIChangeToken = (user:UserInterface) => api.post(`/user/change-password`, user);

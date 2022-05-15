@@ -1,11 +1,12 @@
+import { PostInterface } from './../interfaces/post';
 import api from '.';
 
-export const allPosts = () => api.get('')
-export const onePost = () => api.get('')
+export const APIAllPosts = () => api.get('/posts');
+// export const onePost = () => api.get('');
 
-export const newPost = () => api.post('')
+export const APINewPost = (post: PostInterface) => api.post('/posts', post);
 
-export const updatePost = () => api.put('')
-export const changeImage = () => api.put('')
+export const APIUpdatePost = (post: PostInterface) => api.put(`/posts/${post.id}`, post);
+export const APIChangeImage = (post: PostInterface) => api.put(`/posts/edit-image/${post.id}`, post);
 
-export const deletePost = () => api.delete('')
+export const APIDeletePost = (post: PostInterface) => api.delete(`/posts/${post.id}`);

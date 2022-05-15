@@ -1,39 +1,8 @@
-import React, { useState } from "react";
-import { UserInterface } from "../../interfaces/user";
+import React from "react"
 
-import { useDispatch, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { actionCreators, State } from "../../state";
-
-export const Login = () => {
-    const dispatch = useDispatch();
-    const { login } = bindActionCreators(actionCreators, dispatch);
-    const user = useSelector((state: State) => state.user)
-
-    const [loginForm, setLoginForm] = useState<UserInterface>({ 
-        id: 0, 
-        name: '',
-        email: '', 
-        password: '', 
-        confirmPassword: '' ,
-        accessToken: '' 
-    })
-
-    const inputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault()
-
-        setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
-    }
-
-    const submit = (event:React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        login(loginForm);
-        console.log(user);
-    }
-
+export const Login: React.FC<{inputChange:(event:React.ChangeEvent<HTMLInputElement>) => void}> = ( {inputChange} ) => {
     return (
-    <form onSubmit={(e) => submit(e)}>
+    <form>
         <strong>Login with your already registred account</strong>
         <div>
             <label htmlFor="email">Email</label>
@@ -53,7 +22,6 @@ export const Login = () => {
                 onChange={(e) => inputChange(e)}
             />
         </div>
-        <input type="submit" value={'Sign In'} />
     </form>
   )
 }

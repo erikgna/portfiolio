@@ -1,4 +1,5 @@
-import { About } from "../About/about"
+import { About } from "../About/About"
+
 
 export const Home = () => {
   return (

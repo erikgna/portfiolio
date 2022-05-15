@@ -1,5 +1,6 @@
-import { Navbar } from './components/Navbar/navbar';
-import { Home } from './pages/Home/home';
+import { Navbar } from './components/Navbar/Navbar';
+import { Authentication } from './pages/Authentication/Authentication';
+import { Home } from './pages/Home/Home';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       </header>
 
       <section>
+        <Authentication></Authentication>
         <Home></Home>
       </section>
     </main>

@@ -1,30 +1,8 @@
-import React, { useState } from "react"
-import { UserInterface } from "../../interfaces/user"
+import React from "react"
 
-export const Register = () => {
-    const [register, setRegister] = useState<UserInterface>({
-        id: 0, 
-        name: '',
-        email: '', 
-        password: '', 
-        confirmPassword: '' ,
-        accessToken: '' 
-    })
-    
-    const inputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault()
-
-        setRegister({ ...register, [event.target.name]: event.target.value })
-    }
-
-    const submit = (event:React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        console.log(register)
-    }
-
+export const Register: React.FC<{inputChange:(event:React.ChangeEvent<HTMLInputElement>) => void}> = ( {inputChange} ) => {
     return (
-    <form onSubmit={(e) => submit(e)}>
+    <form>
         <strong>Register a new account</strong>
         <div>
             <label htmlFor="fullName">Full Name</label>
@@ -71,7 +49,6 @@ export const Register = () => {
                 onChange={(e) => inputChange(e)}
             />
         </div>
-        <input type="submit" value={'Sign Up'} />
     </form>
   )
 }

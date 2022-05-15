@@ -1,26 +1,29 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { PostInterface } from '../../interfaces/post'
+import { asyncNewPost } from '../../redux/stores/Post.store';
 
 export const NewPost = () => {
+    const dispatch = useDispatch();
+    
     const [product, setProduct] = useState<PostInterface>({ 
+        image: '',
         title: '',
-        description: '', 
-        image: '', 
-        price: 0, 
-        likes: 0, 
-        dislikes: 0 
+        description: '',
+        likes: 0,
+        dislikes: 0
     })
 
     const inputChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        event.preventDefault()
+        event.preventDefault();
 
-        setProduct({ ...product, [event.target.name]: event.target.value })
+        setProduct({ ...product, [event.target.name]: event.target.value });
     }
 
     const submit = (event:React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+        event.preventDefault();
 
-        console.log(product)
+        dispatch(asyncNewPost(product));
     }
 
     return (

@@ -1,8 +1,8 @@
 export interface PostInterface{
+    id?: number;
+    image?: string;
     title: string;
     description: string;
-    price: number;
-    image: string;
     likes?: number;
     dislikes?: number;
 }
