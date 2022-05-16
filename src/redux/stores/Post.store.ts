@@ -41,6 +41,8 @@ export default post.reducer;
 export function asyncAllPosts(): any {
     return async function (dispatch: AppDispatch){
         try {
+            //TODO: Alterar na API model de Post = imageURL
+
             // const response:AxiosResponse = await APIAllPosts();
             
             // dispatch(allPosts(response?.data));
@@ -57,7 +59,8 @@ export function asyncNewPost(post:PostInterface): any {
         try {
             const response:AxiosResponse = await APINewPost(post);
 
-            post = {...post, id: response?.data}
+            post = {...post, id: response?.data};
+            if(post.image) await asyncChangeImage(post);
             
             if(response.status === 201) dispatch(newPost(post)); 
         } catch (error) {
@@ -69,6 +72,8 @@ export function asyncNewPost(post:PostInterface): any {
 export function asyncUpdatePost(post:PostInterface): any {
     return async function (dispatch: AppDispatch){
         const response:AxiosResponse = await APIUpdatePost(post);
+
+        if(post.image) await asyncChangeImage(post);
 
         if(response.status === 201) dispatch(updatePost(post));
     }

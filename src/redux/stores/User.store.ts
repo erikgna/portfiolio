@@ -19,12 +19,14 @@ const user = createSlice({
     reducers: {
         login (state:UserInterface, action: PayloadAction<UserInterface>){
             state.accessToken = action.payload.accessToken;
+            state.name = action.payload.name;
         },
         register (state:UserInterface, action: PayloadAction<UserInterface>){
             state.name = action.payload.name;
             state.accessToken = action.payload.accessToken;
         },
         editUser (state:UserInterface, action: PayloadAction<UserInterface>){
+            state.name = action.payload.name;
             state.accessToken = action.payload.accessToken;
         },
         changePassword (state:UserInterface, action: PayloadAction<UserInterface>){
@@ -46,8 +48,6 @@ export function asyncLogin(user:UserInterface): any {
 
             user.accessToken = response.data;
             localStorage.setItem('token', response.data);
-
-            console.log(response.data);
 
             dispatch(login(user));
         } catch (error) {
@@ -73,14 +73,16 @@ export function asyncRegister(user:UserInterface): any {
 
 export function asyncEditUser(user:UserInterface): any {
     return async function (dispatch: AppDispatch){
-        const response:AxiosResponse = await APIEditUser(user, user.email);
+        if(user.email !== undefined){
+            const response:AxiosResponse = await APIEditUser(user, user.email);
 
-        user = response.data;
-        localStorage.setItem("token", response.data.accessToken);
+            user = response.data;
+            localStorage.setItem("token", response.data.accessToken);
 
-        if(response.status === 200) console.log("Sucesso");
+            if(response.status === 200) console.log("Sucesso");
 
-        dispatch(editUser(user));
+            dispatch(editUser(user));
+        }
     }
 }
 

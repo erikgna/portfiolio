@@ -6,16 +6,21 @@ import { asyncUpdatePost } from '../../redux/stores/Post.store';
 export const EditPostModal: React.FC<{setModal: React.Dispatch<React.SetStateAction<boolean>>, post: PostInterface}> = ( { setModal, post } ) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<PostInterface>({title: "", description: ""});
-  
-  const edit = () => {
-    console.log("tste")
-    // dispatch(asyncUpdatePost(post));
+
+  const sendEdition = () => {
+    post = {...post, ...formData};
+    dispatch(asyncUpdatePost(post));
+    setModal(false);
   }
 
   return (
     <div>
         <h3>Edit {post.title}</h3>
         <form>
+          <div>
+            <img src={post.imageURL} alt="Image error" />
+            <input multiple type="file" name="image" id="image" onChange={(e) => {if(e.target.files !== null) setFormData({...formData, image: e.target.files[0]}) } } />
+          </div>
             <label htmlFor="title">Title</label>
             <input type="text" name='title' placeholder='New title' onChange={(e) => { setFormData({...formData, title: e.target.value}) }} />
             <label htmlFor="title">Title</label>
@@ -23,7 +28,7 @@ export const EditPostModal: React.FC<{setModal: React.Dispatch<React.SetStateAct
         </form>
         <div>
             <button onClick={() => { setModal(false) }}>Fechar</button>
-            <button onClick={() => { edit() }}>Finalizar</button>
+            <button onClick={() => { sendEdition() }}>Finalizar</button>
         </div>
     </div>
   )

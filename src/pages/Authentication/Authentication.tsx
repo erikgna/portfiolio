@@ -11,12 +11,13 @@ export const Authentication = () => {
     const dispatch = useDispatch();
     const user:UserInterface = useSelector((state: RootState) => state.user);
 
+    const [modal, setModal] = useState<boolean>(false)
     const [isLogin, setIsLogin] = useState<boolean>(true);
     const [formData, setFormData] = useState<UserInterface>({
         name: '',
         email: '', 
         password: '', 
-        confirmPassword: '' ,
+        confirmPassword: '',
         accessToken: ''
     });
     
@@ -47,6 +48,11 @@ export const Authentication = () => {
                         { isLogin? "Sign Up" : "Sign In" }
                 </strong>
             </small>
+            <strong onClick={() => setModal(true)}>Forget my password</strong>
+            {modal&& <div>
+                <h2>An email was sent.</h2>
+                <p>Please check you email inbox to change your password.</p>
+            </div> }
       </div>
   )
 }

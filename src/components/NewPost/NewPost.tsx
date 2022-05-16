@@ -7,7 +7,7 @@ export const NewPost = () => {
     const dispatch = useDispatch();
     
     const [product, setProduct] = useState<PostInterface>({ 
-        image: '',
+        image: undefined,
         title: '',
         description: '',
         likes: 0,
@@ -45,7 +45,7 @@ export const NewPost = () => {
                     </div>
                     <div>
                         <label htmlFor="image">Add Image</label>
-                        <input type="file" name='image' onChange={(e) => inputChange(e)} />
+                        <input multiple type="file" name='image' onChange={(e) => inputChange(e)} />
                     </div>
                     <input type="submit" value="Register" />
                 </form>

@@ -14,7 +14,7 @@ const Post: React.FC<{post:PostInterface}> = ( { post } ) => {
   return (
     <div>
       <div>
-        <img src={post.image} alt="Product" />
+        <img src={post.imageURL} alt="Product" />
       </div>
       <div>
         <h4>{post.title}</h4>

@@ -1,6 +1,7 @@
 export interface PostInterface{
     id?: number;
-    image?: string;
+    imageURL?: string;
+    image?: File;
     title: string;
     description: string;
     likes?: number;
