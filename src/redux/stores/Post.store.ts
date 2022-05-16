@@ -41,9 +41,11 @@ export default post.reducer;
 export function asyncAllPosts(): any {
     return async function (dispatch: AppDispatch){
         try {
-            const response:AxiosResponse = await APIAllPosts();
+            // const response:AxiosResponse = await APIAllPosts();
             
-            dispatch(allPosts(response.data));
+            // dispatch(allPosts(response?.data));
+            const teste:PostInterface[] = [{id: 1, title: "teste", description: "testetete"}];
+            dispatch(allPosts(teste));
         } catch (error) {
             console.log(error);
         }
