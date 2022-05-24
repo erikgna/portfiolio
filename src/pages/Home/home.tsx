@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { InformationSection, Teste } from "./Home.styled";
-import { motion } from "framer-motion";
+import { InformationSection } from "./Home.styled";
+import { Canvas, extend } from "@react-three/fiber"; 
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import {  Teste } from "./Teste";
+
+extend({ OrbitControls });
 
 export const Home = () => {
   const [teste, setTeste] = useState('');
@@ -41,9 +45,14 @@ export const Home = () => {
           </h1>
           <p>Frontend Developer / Backend Developer / DevOps</p>
           <button>Contact me</button>
-
-          <Teste whileTap={{scale: .8}} drag={true} ></Teste>
         </InformationSection>
+        <div className="teste">
+        <Canvas>
+          <ambientLight />
+          <pointLight position={[10, 10, 10]} />
+          <Teste />
+        </Canvas>
+        </div>
     </section>
   )
 }

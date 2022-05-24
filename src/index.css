@@ -33,8 +33,14 @@ code {
   background: #282828;
 
   display: flex;
+  justify-content: space-between;
 }
 
 span{
   color: salmon;
+}
+
+.teste{
+  display: flex;
+  flex-direction: column;
 }

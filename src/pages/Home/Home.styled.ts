@@ -1,12 +1,4 @@
-import { motion } from 'framer-motion';
-import styled, { css, keyframes } from "styled-components";
-
-const fadeIn = keyframes`
-    100% {
-      opacity: 1;
-      filter: blur(0);
-    }
-`
+import styled, { keyframes } from "styled-components";
 
 export const Span = styled.span<{duration: number}>`
 
@@ -60,10 +52,4 @@ export const InformationSection = styled.div`
         background-position: left;
         color: #282828;
     }
-`
-
-export const Teste = styled(motion.div)`
-    background: red;
-    width: 80px;
-    height: 90px;
 `
