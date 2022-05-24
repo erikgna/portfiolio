@@ -1,18 +1,26 @@
 import React from 'react'
+import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
+import { GiReactor } from 'react-icons/gi'
+import { Links, NavbarSection } from './Navbar.styled'
 
 export const Navbar = () => {
   return (
-    <nav>
+    <NavbarSection>
         <div className='logo'>
-            <h1>Meu Logo</h1>
+            <GiReactor></GiReactor>
         </div>
-        <div className='links'>
-            <ul>
+        <div>
+            <Links>
                 <li>Home</li>
                 <li>About Me</li>
                 <li>Contact</li>
-            </ul>
+            </Links>
+
+            <div>
+              <AiFillGithub></AiFillGithub>
+              <AiFillLinkedin></AiFillLinkedin>
+            </div>
         </div>
-    </nav>
+    </NavbarSection>
   )
 }

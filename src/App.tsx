@@ -5,16 +5,15 @@ import { Home } from './pages/Home/Home';
 function App() {
   return (
     <main>
-      <header>
+      <section className='flex'>
         <Navbar></Navbar>
-      </header>
 
-      <section>
-        <Authentication></Authentication>
-        <Home></Home>
+        {/* <section> */}
+          {/* <Authentication></Authentication> */}
+          <Home></Home>
+        {/* </section> */}
       </section>
     </main>
-  );
-}
 
+)}
 export default App;
