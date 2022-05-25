@@ -1,4 +1,5 @@
 import { Navbar } from './components/Navbar/Navbar';
+import { About } from './pages/About/About';
 import { Authentication } from './pages/Authentication/Authentication';
 import { Home } from './pages/Home/Home';
 
@@ -10,7 +11,7 @@ function App() {
 
         {/* <section> */}
           {/* <Authentication></Authentication> */}
-          <Home></Home>
+          <About></About>
         {/* </section> */}
       </section>
     </main>

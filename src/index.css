@@ -24,7 +24,7 @@ code {
 
   justify-content: flex-start;
 
-  position: absolute;
+  height: 100vh;
 }
 
 .home {
@@ -36,11 +36,20 @@ code {
   justify-content: space-between;
 }
 
-span{
-  color: salmon;
-}
-
 .teste{
-  display: flex;
-  flex-direction: column;
+  animation-duration: 2s;
+  animation-iteration-count: initial;
+  animation-name: rescale;
+}
+@keyframes rescale {
+  0%{
+    transform: scaleY(1) scaleX(1);
+    transform: scaleX(1);
+  }
+  50%{
+    transform: scaleY(1.5) scaleX(.55);
+  }
+  100%{
+    transform: scaleY(1) scaleX(1);
+  } 
 }
