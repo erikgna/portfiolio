@@ -1,20 +1,20 @@
 import { Navbar } from './components/Navbar/Navbar';
+import { About } from './pages/About/About';
 import { Authentication } from './pages/Authentication/Authentication';
 import { Home } from './pages/Home/Home';
 
 function App() {
   return (
     <main>
-      <header>
+      <section className='flex'>
         <Navbar></Navbar>
-      </header>
 
-      <section>
-        <Authentication></Authentication>
-        <Home></Home>
+        {/* <section> */}
+          {/* <Authentication></Authentication> */}
+          <About></About>
+        {/* </section> */}
       </section>
     </main>
-  );
-}
 
+)}
 export default App;
