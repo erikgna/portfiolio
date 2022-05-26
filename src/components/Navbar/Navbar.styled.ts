@@ -47,9 +47,19 @@ export const Links = styled.ul`
 
     margin-bottom: 32px;
 
+    .li-active{
+        border-left: 3px solid salmon;
+    }
+    
+    a{
+        color: #fff;
+        text-decoration: none;
+    }
+
     li {
-        border-bottom: 1px solid white;
         padding: 16px 24px;
+
+        border-radius: 3px;
 
         width: 150px;
 
@@ -62,9 +72,7 @@ export const Links = styled.ul`
         transition: ease-in 300ms;
         
         &:hover{
-            color: #fa8072;
-
-            font-size: 18px;
+            background: #fa807230;
         }
     }
 `

@@ -1,3 +1,5 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import { Navbar } from './components/Navbar/Navbar';
 import { About } from './pages/About/About';
 import { Authentication } from './pages/Authentication/Authentication';
@@ -5,16 +7,15 @@ import { Home } from './pages/Home/Home';
 
 function App() {
   return (
-    <main>
+    <Router>
       <section className='flex'>
         <Navbar></Navbar>
-
-        {/* <section> */}
-          {/* <Authentication></Authentication> */}
-          <About></About>
-        {/* </section> */}
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+        </Routes>
       </section>
-    </main>
+    </Router>
 
 )}
 export default App;

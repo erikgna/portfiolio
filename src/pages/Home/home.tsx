@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber"; 
+import { Link } from "react-router-dom";
 
 import { InformationSection, Span } from "./Home.styled";
 import { Earth } from "./Earth3D";
@@ -48,7 +49,9 @@ export const Home = () => {
             <br />I'm Erik,<br /><Span>{word}</Span> developer
           </h1>
           <p>Frontend Developer / Backend Developer / DevOps</p>
-          <button>Contact me</button>
+          <Link to='/contact'>
+            <button>Contact me</button>
+          </Link>          
         </InformationSection>
         <div>
           <Canvas style={{width: `${window.innerWidth/3.7}px`}}>
