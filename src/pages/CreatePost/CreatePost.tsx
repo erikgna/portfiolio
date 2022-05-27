@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { PostInterface } from '../../interfaces/post'
-import { UserInterface } from '../../interfaces/user';
+import { IPost } from '../../interfaces/post'
+import { IUser } from '../../interfaces/user';
 import { asyncNewPost } from '../../redux/stores/Post.store';
 import { RootState } from '../../redux';
 
@@ -15,11 +15,11 @@ import { CreatePostStyle, InputImage, ColInput, YourPosts } from './CreatePost.s
 import { Login, Register } from '../../components/Authentication/Authentication';
 
 export const CreatePost = () => {
-    const user:UserInterface = useSelector((state: RootState) => state.user);
+    const user:IUser = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
     
     const [isLogin, setIsLogin] = useState<boolean>(true);
-    const [post, setPost] = useState<PostInterface>({ 
+    const [post, setPost] = useState<IPost>({ 
         image: undefined,
         title: '',
         description: '',

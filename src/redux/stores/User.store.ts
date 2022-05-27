@@ -1,11 +1,11 @@
 import { AppDispatch } from '../index';
-import { UserInterface } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { APISignin, APISignup, APIEditUser, APIChangePassword, APIChangeToken } from '../../api/user';
 import { AxiosResponse } from 'axios';
 
-const initialState:UserInterface = {
+const initialState:IUser = {
     name: '',
     email: '',
     password: '',
@@ -17,22 +17,22 @@ const user = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
-        login (state:UserInterface, action: PayloadAction<UserInterface>){
+        login (state:IUser, action: PayloadAction<IUser>){
             state.accessToken = action.payload.accessToken;
             state.name = action.payload.name;
         },
-        register (state:UserInterface, action: PayloadAction<UserInterface>){
+        register (state:IUser, action: PayloadAction<IUser>){
             state.name = action.payload.name;
             state.accessToken = action.payload.accessToken;
         },
-        editUser (state:UserInterface, action: PayloadAction<UserInterface>){
+        editUser (state:IUser, action: PayloadAction<IUser>){
             state.name = action.payload.name;
             state.accessToken = action.payload.accessToken;
         },
-        changePassword (state:UserInterface, action: PayloadAction<UserInterface>){
+        changePassword (state:IUser, action: PayloadAction<IUser>){
             state.accessToken = action.payload.accessToken;
         },
-        changeToken (state:UserInterface, action: PayloadAction<UserInterface>){
+        changeToken (state:IUser, action: PayloadAction<IUser>){
             state.accessToken = action.payload.accessToken;
         }
     }
@@ -41,7 +41,7 @@ const user = createSlice({
 export const { login, register, editUser, changePassword, changeToken } = user.actions;
 export default user.reducer;
 
-export function asyncLogin(user:UserInterface): any {
+export function asyncLogin(user:IUser): any {
     return async function (dispatch: AppDispatch){
         try {
             const response:AxiosResponse = await APISignin(user);
@@ -56,7 +56,7 @@ export function asyncLogin(user:UserInterface): any {
     }
 }
 
-export function asyncRegister(user:UserInterface): any {
+export function asyncRegister(user:IUser): any {
     return async function (dispatch: AppDispatch){
         try {
             const response:AxiosResponse = await APISignup(user);
@@ -71,7 +71,7 @@ export function asyncRegister(user:UserInterface): any {
     }
 }
 
-export function asyncEditUser(user:UserInterface): any {
+export function asyncEditUser(user:IUser): any {
     return async function (dispatch: AppDispatch){
         if(user.email !== undefined){
             const response:AxiosResponse = await APIEditUser(user, user.email);
@@ -86,7 +86,7 @@ export function asyncEditUser(user:UserInterface): any {
     }
 }
 
-export function asyncChangePassword(user:UserInterface): any {
+export function asyncChangePassword(user:IUser): any {
     return async function (dispatch: AppDispatch){
         const response:AxiosResponse = await APIChangePassword(user);
 
@@ -96,7 +96,7 @@ export function asyncChangePassword(user:UserInterface): any {
     }
 }
 
-export function asyncChangeToken(user:UserInterface): any {
+export function asyncChangeToken(user:IUser): any {
     return async function (dispatch: AppDispatch){
         const response:AxiosResponse = await APIChangeToken(user);
 

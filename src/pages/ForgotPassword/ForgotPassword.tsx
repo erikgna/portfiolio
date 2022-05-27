@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { UserInterface } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 import { RootState } from '../../redux';
 import { asyncChangePassword } from '../../redux/stores/User.store';
 
 export const ForgotPassword = () => {
-    const user:UserInterface = useSelector((state: RootState) => state.user);
+    const user:IUser = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
 
-    const [formData, setFormData] = useState<UserInterface>({password: '', confirmPassword: ''});
+    const [formData, setFormData] = useState<IUser>({password: '', confirmPassword: ''});
 
     useEffect(() => {
         const url:string  = window.location.href;
