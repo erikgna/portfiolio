@@ -1,36 +1,53 @@
 import { useAnimation } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { AnimatedLetter } from '../../components/AnimatedLetter/AnimatedLetter';
+import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.styled';
+import { FlexPrincipal } from '../../styles/Global.styled';
 
-import { ProgressBarStyles, Description, Skills, Special, Static } from './About.styled';
+import { ProgressBarStyles, Description, Skills } from './About.styled';
+
+const SkillsValues:{level:number, name:string}[] = [
+    { level: 200, name: 'HTML / CSS / JavaScript' },
+    { level: 195, name: 'ReactJS' },
+    { level: 195, name: 'Flutter' },
+    { level: 195, name: 'MySQL' },
+    { level: 190, name: 'NodeJS' },
+    { level: 180, name: 'TypeScript' },
+    { level: 125, name: 'Java' },
+    { level: 115, name: 'MongoDB' },
+    { level: 100, name: 'Python' },
+    { level: 100, name: 'AWS' },
+    { level: 100, name: 'Docker' }
+]
 
 export const About = () => {
   return (
-    <section className='home'>
+    <FlexPrincipal alignCenter={true}>
         <Description>
-            <h2>
-                <AnimatedLetter letter='S'></AnimatedLetter>
-                <AnimatedLetter letter='k'></AnimatedLetter>
-                <AnimatedLetter letter='i'></AnimatedLetter>
-                <AnimatedLetter letter='l'></AnimatedLetter>
-                <AnimatedLetter letter='l'></AnimatedLetter>
-                <AnimatedLetter letter='s'></AnimatedLetter>
-                <AnimatedLetter letter='&nbsp;a'></AnimatedLetter>
-                <AnimatedLetter letter='n'></AnimatedLetter>
-                <AnimatedLetter letter='d'></AnimatedLetter>
+            <AnimatedH2>
+                <AnimatedLetter letter='S' />
+                <AnimatedLetter letter='k' />
+                <AnimatedLetter letter='i' />
+                <AnimatedLetter letter='l' />
+                <AnimatedLetter letter='l' />
+                <AnimatedLetter letter='s' />
+                <AnimatedLetter letter='&nbsp;a' />
+                <AnimatedLetter letter='n' />
+                <AnimatedLetter letter='d' />
                 <br />
-                <AnimatedLetter letter='E'></AnimatedLetter>
-                <AnimatedLetter letter='x'></AnimatedLetter>
-                <AnimatedLetter letter='p'></AnimatedLetter>
-                <AnimatedLetter letter='e'></AnimatedLetter>
-                <AnimatedLetter letter='r'></AnimatedLetter>
-                <AnimatedLetter letter='i'></AnimatedLetter>
-                <AnimatedLetter letter='e'></AnimatedLetter>
-                <AnimatedLetter letter='n'></AnimatedLetter>
-                <AnimatedLetter letter='c'></AnimatedLetter>
-                <AnimatedLetter letter='e'></AnimatedLetter>
-                <AnimatedLetter letter='s'></AnimatedLetter>
-            </h2>
+                <AnimatedLetter letter='E' />
+                <AnimatedLetter letter='x' />
+                <AnimatedLetter letter='p' />
+                <AnimatedLetter letter='e' />
+                <AnimatedLetter letter='r' />
+                <AnimatedLetter letter='i' />
+                <AnimatedLetter letter='e' />
+                <AnimatedLetter letter='n' />
+                <AnimatedLetter letter='c' />
+                <AnimatedLetter letter='e' />
+                <AnimatedLetter letter='s' />
+            </AnimatedH2>
             <p>
                 Since the beggining of my journey I always focused more on frontend and web applications.
                 I've designed, developed and build multiples websites since my start from now.
@@ -51,57 +68,23 @@ export const About = () => {
                 Visit my <a href='https://github.com'>Linkedin</a> profile or <a href='https://github.com'>contact me</a> for more details.
             </p>
         </Description>
+
         <Skills>
-            <div>
-                <h3>HTML / CSS / JavaScript</h3>
-                <ProgressBar size={200} />
-            </div>
-            <div>
-                <h3>ReactJS</h3>
-                <ProgressBar size={195} />
-            </div>
-            <div>
-                <h3>Flutter</h3>
-                <ProgressBar size={195} />
-            </div>
-            <div>
-                <h3>MySQL</h3>
-                <ProgressBar size={195} />
-            </div>
-            <div>
-                <h3>NodeJS</h3>
-                <ProgressBar size={190} />
-            </div>
-            <div>
-                <h3>TypeScript</h3>
-                <ProgressBar size={180} />
-            </div>
-            <div>
-                <h3>Java</h3>
-                <ProgressBar size={125} />
-            </div>
-            <div>
-                <h3>MongoDB</h3>
-                <ProgressBar size={115} />
-            </div>
-            <div>
-                <h3>Python</h3>
-                <ProgressBar size={100} />
-            </div>
-            <div>
-                <h3>AWS</h3>
-                <ProgressBar size={100} />
-            </div>
-            <div>
-                <h3>Docker</h3>
-                <ProgressBar size={100} />
-            </div>
+
+            {SkillsValues.map(( {level, name} ) => (
+                <div key={name}>
+                    <h3>{name}</h3>
+                    <SkillProgressBar size={level} />
+                </div>
+            ))}
+            
         </Skills>
-    </section>
+        
+    </FlexPrincipal>
   )
 }
 
-const ProgressBar: React.FC<{size:number}> = ( {size} ) => {
+const SkillProgressBar: React.FC<{size:number}> = ( {size} ) => {
     const squareVariants = {
         visible: { backgroundPosition: 'left' },
     };
@@ -114,22 +97,9 @@ const ProgressBar: React.FC<{size:number}> = ( {size} ) => {
     }, [controls, inView]);
     return (
         <ProgressBarStyles size={size}
-        ref={ref}
-        animate={controls}
-        variants={squareVariants}
-        ></ProgressBarStyles>
+            ref={ref}
+            animate={controls}
+            variants={squareVariants}
+        />
     );
-}
-
-const AnimatedLetter: React.FC<{letter:string}> = ( {letter} ) => {
-    const [animated, setAnimated] = useState<boolean>(false);
-
-    return(
-        animated?
-    <Special 
-        onAnimationEnd={() => setAnimated(() => false)}>{letter}</Special> 
-        :
-    <Static 
-        onMouseEnter={() => setAnimated(() => true)}>{letter}</Static>
-    )
 }

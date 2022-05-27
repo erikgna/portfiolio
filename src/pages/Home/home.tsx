@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber"; 
 import { Link } from "react-router-dom";
 
-import { InformationSection, Span } from "./Home.styled";
+import { InformationSection, Span, HomeSection } from "./Home.styled";
 import { Earth } from "./Earth3D";
+import { Button } from "../../styles/Global.styled";
 
 export const Home = () => {
   const [word, setWord] = useState('');
 
-  const effectTeste = () => {
+  const effectWord = () => {
     const list = ['frontend', 'backend'];
 
     let letterIndex = 0;
@@ -33,11 +34,11 @@ export const Home = () => {
   }
 
   useEffect(() => {
-    effectTeste();
+    effectWord();
   }, [])
 
   return (
-    <section className="home">
+    <HomeSection>
         <InformationSection>
           <h1>
             <span>H</span>
@@ -50,14 +51,14 @@ export const Home = () => {
           </h1>
           <p>Frontend Developer / Backend Developer / DevOps</p>
           <Link to='/contact'>
-            <button>Contact me</button>
+            <Button width={225}>Contact me</Button>
           </Link>          
         </InformationSection>
         <div>
-          <Canvas style={{width: `${window.innerWidth/3.7}px`}}>
+          <Canvas style={{width: 'calc(45vw - 75px)', height: '100vh'}} >
             <Earth />
           </Canvas>
         </div>
-    </section>
+    </HomeSection>
   )
 }

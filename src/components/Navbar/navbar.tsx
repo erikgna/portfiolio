@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 import { GiReactor } from 'react-icons/gi'
 import { Link } from 'react-router-dom';
+import { Button } from '../../styles/Global.styled';
 
 import { Links, NavbarSection, Content, Logo, Socials } from './Navbar.styled'
 
@@ -23,6 +24,13 @@ export const Navbar = () => {
                   Home
               </li>
             </Link>
+            <Link to='/posts'>
+              <li 
+                onClick={() => setClicked(() => 'posts')}
+                className={clicked === 'posts'? 'li-active' : ''}>
+                  Posts
+              </li>
+            </Link>
             <Link to='/about'>
               <li 
                 onClick={() => setClicked(() => 'about')}
@@ -41,6 +49,9 @@ export const Navbar = () => {
           <Socials>
             <AiFillGithub></AiFillGithub>
             <AiFillLinkedin></AiFillLinkedin>
+          </Socials>
+          <Socials>
+            <Link to='create-post'><Button width={125}>Create Post</Button></Link>
           </Socials>
         </div>
       </Content>

@@ -18,6 +18,19 @@ const rotater = keyframes`
     }
 `
 
+export const HomeSection = styled.section`
+    width: 100%;
+    min-height: 100vh;
+
+    padding-left: 150px;
+
+    background: #282828;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
 export const Span = styled.span`
     color: #fa8072;
 `
@@ -54,31 +67,4 @@ export const InformationSection = styled.div`
         animation-duration: 5s;
         animation-timing-function: ease-in-out;
     }
-
-    button{
-        width: 225px;
-
-        background: none;
-        color: #fa8072;
-        
-        border: 1px solid #fa8072;
-        border-radius: 3px;
-
-        cursor: pointer;
-
-        padding: 16px 0px;
-
-        font-size: 16px;
-        font-weight: 600;
-
-        background: linear-gradient(to left, transparent 50%, #fa8072 50%) right;
-        background-size: 200%;
-        transition: .3s ease-out;
-    }
-
-    button:hover{
-        background-position: left;
-        color: #282828;
-    }
 `
-

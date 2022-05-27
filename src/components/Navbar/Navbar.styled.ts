@@ -1,11 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
 const rotater = keyframes`
-    from{
-        transform: rotate(0deg);
+    0%{
+        transform: rotate(0deg) scale(1);
     }
-    to{
-        transform: rotate(360deg);
+    50%{
+        transform: rotate(180deg) scale(1.5);
+    }
+    100%{
+        transform: rotate(360deg) scale(1);
     }
 `
 
@@ -13,6 +16,8 @@ export const NavbarSection = styled.nav`
     display: flex;
     justify-content: center;
 
+    position: fixed;
+    
     height: 100vh;
 
     background: #202020;
@@ -84,12 +89,14 @@ export const Content = styled.div`
     
     color: #fff;
 
-    height: 60vh;
+    height: 70vh;
 `
 
 export const Socials = styled.div`
     display: flex;
     justify-content: center;
+
+    margin-bottom: 48px;
 
     svg{
         color: #fff;

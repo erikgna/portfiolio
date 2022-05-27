@@ -1,23 +1,10 @@
 import { motion } from 'framer-motion';
-import styled, { keyframes } from "styled-components";
-
-const rescale = keyframes`
-    0%{
-        transform: scaleY(1) scaleX(1);
-        transform: scaleX(1);
-    }
-    50%{
-        transform: scaleY(1.5) scaleX(.55);
-    }
-    100%{
-        transform: scaleY(1) scaleX(1);
-    }
-`
+import styled from "styled-components";
 
 export const ProgressBarStyles = styled(motion.div)<{size:number}>`
     border-radius: 3px;
     border: 1px solid salmon;
-    width: calc(100vw/3.5);
+    width: calc(50vw/2);
     height: 16px;
     background: linear-gradient(to left, transparent 50%, salmon 50%) right;
     background-size: ${(props) => props.size}%;
@@ -28,38 +15,16 @@ export const ProgressBarStyles = styled(motion.div)<{size:number}>`
     }
 `
 
-export const Special = styled.span`
-    position: relative;
-    display: inline-block;
-
-    animation-duration: .6s;
-    animation-iteration-count: initial;
-    animation-name: ${rescale};
-`
-
-export const Static = styled.span`
-    position: relative;
-    display: inline-block;
-`
-
 export const Description = styled.div`
+    width: calc(50vw - 75px);
+
     display: flex;
     flex-direction: column;
-    align-self: center;
 
     color: #fff;
 
     padding-left: 48px;
     padding-right: 128px;
-
-    h2{
-        font-size: 48px;
-        line-height: 1.1;
-
-        color: #bde7f5;
-
-        margin-bottom: 48px;
-    }
 
     p{
         font-size: 16px;
@@ -84,7 +49,6 @@ export const Description = styled.div`
 export const Skills = styled.div`
     display: flex;
     flex-direction: column;
-    align-self: center;
 
     padding-right: 48px;
 
