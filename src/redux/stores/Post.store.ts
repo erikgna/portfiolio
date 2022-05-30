@@ -5,7 +5,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AxiosResponse } from 'axios';
 
-const initialState:IPost[] = [];
+const initialState:IPost[] = [
+    {
+        imageURL: "https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg",
+        title: 'This is the title',
+        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
+    },
+    {
+        imageURL: "https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg",
+        title: 'This is the title',
+        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
+    }
+];
 
 const post = createSlice({
     name: 'post',

@@ -79,7 +79,6 @@ export const About = () => {
             ))}
             
         </Skills>
-        
     </FlexPrincipal>
   )
 }

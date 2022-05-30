@@ -1,40 +1,25 @@
+import { useSelector } from 'react-redux';
+import { IPost } from '../../interfaces/post';
+import { RootState } from '../../redux';
 import { FlexPrincipal } from '../../styles/Global.styled'
 import { PostsStyle, PostStyle } from './Posts.styled'
 
 export const Posts = () => {
-  return (
-    <FlexPrincipal alignCenter={true}>
-        <PostsStyle>
-            <PostStyle blue={false}>
-                <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg" alt="Some post" />
-                <h2>Title of the post</h2>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-            </PostStyle>
-            <PostStyle blue={true}>
-                <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg" alt="Some post" />
-                <h2>Title of the post</h2>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-            </PostStyle>
-            <PostStyle blue={false}>
-                <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg" alt="Some post" />
-                <h2>Title of the post</h2>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-            </PostStyle>
-            <PostStyle blue={true}>
-                <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg" alt="Some post" />
-                <h2>Title of the post</h2>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-            </PostStyle>
-            <PostStyle blue={true}>
-                <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg" alt="Some post" />
-                <h2>Title of the post</h2>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                <div>
-                    <p><strong>Author: </strong>Erik Gabriel Na</p>
-                    <p><strong>Date: </strong>25/05/2022</p>
-                </div>
-            </PostStyle>
-        </PostsStyle>
-    </FlexPrincipal>
-  )
+    const posts:IPost[] = useSelector((state: RootState) => state.post);
+    
+    return (
+        <FlexPrincipal alignCenter={true}>
+            <PostsStyle>
+                {posts.map(({ title, description, imageURL }, index) => {
+                    var isBlue:boolean = false;
+                    if(index%2 === 0) isBlue = true;
+                    return <PostStyle key={title} blue={isBlue}>
+                        <img src={imageURL} alt={title} />
+                        <h2>{title}</h2>
+                        <p>{description}</p>
+                    </PostStyle>
+                })}            
+            </PostsStyle>
+        </FlexPrincipal>
+    )
 }

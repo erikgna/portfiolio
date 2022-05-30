@@ -51,6 +51,7 @@ export const Skills = styled.div`
     flex-direction: column;
 
     padding-right: 48px;
+    padding-bottom: 64px;
 
     h3{
         color: #fff;

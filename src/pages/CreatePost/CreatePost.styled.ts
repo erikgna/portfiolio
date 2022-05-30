@@ -6,6 +6,7 @@ export const CreatePostStyle = styled.div`
     align-items: center;
 
     padding-right: 48px;
+    padding-bottom: 64px;
 
     width: 100%;
 

@@ -25,6 +25,7 @@ export const NavbarSection = styled.nav`
 
 export const Logo = styled.div`
     margin-top: 64px;
+    margin-bottom: 64px;
 
     display: flex;
     justify-content: center;
