@@ -18,24 +18,24 @@ public class PostController{
     private PostService postService;
 
     @GetMapping("/posts")
-    public ResponseEntity<String> allPosts() {
+    public ResponseEntity<ArrayList<Post>> allPosts() {
         try{
             ArrayList<Post> posts = postService.allPosts();
-            return ResponseEntity.ok(posts.toString());
+            return ResponseEntity.ok(posts);
         }
         catch (SQLException e) {
-            return ResponseEntity.status(502).body("An error has occurred while getting the posts.");
+            return ResponseEntity.status(502).body(null);
         }
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<String> onePost(@PathVariable int id) {
+    public ResponseEntity<Post> onePost(@PathVariable int id) {
         try{
             Post post = postService.onePost(id);
-            return ResponseEntity.ok(post.toString());
+            return ResponseEntity.ok(post);
         }
         catch (SQLException e) {
-            return ResponseEntity.status(502).body("An error has occurred while getting the post.");
+            return ResponseEntity.status(502).body(null);
         }
     }
 
@@ -53,7 +53,7 @@ public class PostController{
 
     @PutMapping("/posts/edit-image/{id}")
     @ResponseBody
-    public ResponseEntity<String> updateImage(@RequestBody MultipartFile image, @PathVariable int id) throws IOException, SQLException {
+    public ResponseEntity<String> updateImage(@RequestBody MultipartFile image, @PathVariable int id) throws IOException {
         try{
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.set("Content-Type", "application/form-data");
@@ -63,6 +63,7 @@ public class PostController{
             return ResponseEntity.status(200).headers(httpHeaders).body(null);
         }
         catch (SQLException e) {
+            System.out.println(e);
             return ResponseEntity.status(502).body("An error has occurred while editing the image.");
         }
     }

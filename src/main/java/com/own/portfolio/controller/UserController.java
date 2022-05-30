@@ -19,7 +19,7 @@ public class UserController {
     @PostMapping("/user/login")
     @ResponseBody
     public ResponseEntity<String> findOneUser(@RequestBody User user) throws SQLException, NoSuchAlgorithmException {
-        return ResponseEntity.ok(userService.login(user.getEmail(), user.getPassword()));
+        return ResponseEntity.status(200).body(userService.login(user.getEmail(), user.getPassword()));
     }
 
     @PostMapping("/user/register")

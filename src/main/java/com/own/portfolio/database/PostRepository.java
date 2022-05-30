@@ -21,9 +21,7 @@ public class PostRepository {
                 resultSet.getString("image"),
                 resultSet.getString("title"),
                 resultSet.getString("description"),
-                resultSet.getInt("likes"),
-                resultSet.getInt("dislikes"),
-                resultSet.getInt("createdAt")
+                resultSet.getTimestamp("createdAt")
             ));
         }
         return posts;
@@ -41,9 +39,7 @@ public class PostRepository {
                     resultSet.getString("image"),
                     resultSet.getString("title"),
                     resultSet.getString("description"),
-                    resultSet.getInt("likes"),
-                    resultSet.getInt("dislikes"),
-                    resultSet.getInt("createdAt")
+                    resultSet.getTimestamp("createdAt")
             );
         }
         return null;
@@ -57,14 +53,12 @@ public class PostRepository {
         statement.executeUpdate();
     }
     public void editPost(Post post, int id) throws SQLException {
-        String sql = "UPDATE posts SET image = ?, title = ?, description = ?, likes = ?, dislikes = ? WHERE id = ?";
+        String sql = "UPDATE posts SET image = ?, title = ?, description = ? WHERE id = ?";
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setString(1, post.getImage());
         statement.setString(2, post.getTitle());
         statement.setString(3, post.getDescription());
-        statement.setInt(4, post.getLikes());
-        statement.setInt(5, post.getDislikes());
-        statement.setInt(6, id);
+        statement.setInt(4, id);
         statement.executeUpdate();
     }
 

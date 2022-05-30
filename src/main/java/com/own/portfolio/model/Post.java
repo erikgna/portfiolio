@@ -3,6 +3,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +14,5 @@ public class Post {
     private String image;
     private String title;
     private String description;
-    private int likes;
-    private int dislikes;
-    private int createdAt;
+    private Timestamp createdAt;
 }

@@ -42,8 +42,7 @@ public class PostService{
         oldPost.setImage(post.getImage());
         oldPost.setTitle(post.getTitle());
         oldPost.setDescription(post.getDescription());
-        oldPost.setLikes(post.getLikes());
-        oldPost.setDislikes(post.getDislikes());
+        oldPost.setCreatedAt(post.getCreatedAt());
 
         postRepository.editPost(oldPost, id);
     }

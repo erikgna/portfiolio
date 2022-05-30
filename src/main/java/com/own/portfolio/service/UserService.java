@@ -9,17 +9,24 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
-    public String login(String email, String password) throws NoSuchAlgorithmException, SQLException {
-        final String hashedPassword = Password.getHashedPassword(password);
+    public String login(String email, String password) throws SQLException, NoSuchAlgorithmException {
         final User dbUser = userRepository.oneUser(email);
-        if(Objects.equals(hashedPassword, dbUser.getPassword())){
-            return Token.getToken(dbUser.toString());
+        if(Password.passwordsMatches(password, dbUser.getPassword())){
+            final HashMap<String, String> objectToken = new HashMap<String, String>();
+            objectToken.put("email", dbUser.getEmail());
+            objectToken.put("name", dbUser.getName());
+            final String token = Token.getToken(objectToken.toString());
+            dbUser.setAccessToken(token);
+            editUser(dbUser);
+            return token;
         }
         return null;
     }
