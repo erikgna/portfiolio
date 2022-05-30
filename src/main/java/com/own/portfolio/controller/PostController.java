@@ -18,52 +18,76 @@ public class PostController{
     private PostService postService;
 
     @GetMapping("/posts")
-    public ResponseEntity<ArrayList<Post>> allPosts() throws SQLException {
-        ArrayList<Post> posts = postService.allPosts();
-
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<String> allPosts() {
+        try{
+            ArrayList<Post> posts = postService.allPosts();
+            return ResponseEntity.ok(posts.toString());
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(502).body("An error has occurred while getting the posts.");
+        }
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<Post> onePost(@PathVariable int id) throws SQLException {
-        Post post = postService.onePost(id);
-
-        return ResponseEntity.ok(post);
+    public ResponseEntity<String> onePost(@PathVariable int id) {
+        try{
+            Post post = postService.onePost(id);
+            return ResponseEntity.ok(post.toString());
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(502).body("An error has occurred while getting the post.");
+        }
     }
 
     @PostMapping("/posts")
     @ResponseBody
-    public ResponseEntity<Post> createPost(@RequestBody Post post) throws SQLException {
-        postService.savePost(post);
-
-        return ResponseEntity.status(201).body(null);
+    public ResponseEntity<String> createPost(@RequestBody Post post) {
+        try{
+            postService.savePost(post);
+            return ResponseEntity.status(201).body(null);
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(502).body("An error has occurred while creating the post.");
+        }
     }
 
     @PutMapping("/posts/edit-image/{id}")
     @ResponseBody
-    public ResponseEntity<Post> updateImage(@RequestBody MultipartFile image, @PathVariable int id) throws IOException, SQLException {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Content-Type", "application/form-data");
-        httpHeaders.set("Accept", "multipart/form-data");
+    public ResponseEntity<String> updateImage(@RequestBody MultipartFile image, @PathVariable int id) throws IOException, SQLException {
+        try{
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set("Content-Type", "application/form-data");
+            httpHeaders.set("Accept", "multipart/form-data");
 
-        postService.editImage(image, id);
-
-        return ResponseEntity.status(200).headers(httpHeaders).body(null);
+            postService.editImage(image, id);
+            return ResponseEntity.status(200).headers(httpHeaders).body(null);
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(502).body("An error has occurred while editing the image.");
+        }
     }
 
     @PutMapping("/posts/{id}")
     @ResponseBody
-    public ResponseEntity<Post> updatePost(@RequestBody Post post, @PathVariable int id) throws SQLException {
-        postService.editPost(post, id);
-
-        return ResponseEntity.status(201).body(null);
+    public ResponseEntity<String> updatePost(@RequestBody Post post, @PathVariable int id) {
+        try{
+            postService.editPost(post, id);
+            return ResponseEntity.status(200).body(null);
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(502).body("An error has occurred while editing the post.");
+        }
     }
 
     @DeleteMapping("/posts/{id}")
     @ResponseBody
-    public ResponseEntity<Post> deletePost(@PathVariable int id) throws SQLException {
-        postService.deletePost(id);
-
-        return ResponseEntity.status(200).body(null);
+    public ResponseEntity<String> deletePost(@PathVariable int id) {
+        try{
+            postService.deletePost(id);
+            return ResponseEntity.status(200).body(null);
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(502).body("An error has occurred while deleting the post.");
+        }
     }
 }

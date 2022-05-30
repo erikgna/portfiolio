@@ -14,4 +14,5 @@ public class Post {
     private String description;
     private int likes;
     private int dislikes;
+    private int createdAt;
 }

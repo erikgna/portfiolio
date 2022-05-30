@@ -22,7 +22,8 @@ public class PostRepository {
                 resultSet.getString("title"),
                 resultSet.getString("description"),
                 resultSet.getInt("likes"),
-                resultSet.getInt("dislikes")
+                resultSet.getInt("dislikes"),
+                resultSet.getInt("createdAt")
             ));
         }
         return posts;
@@ -41,7 +42,8 @@ public class PostRepository {
                     resultSet.getString("title"),
                     resultSet.getString("description"),
                     resultSet.getInt("likes"),
-                    resultSet.getInt("dislikes")
+                    resultSet.getInt("dislikes"),
+                    resultSet.getInt("createdAt")
             );
         }
         return null;
