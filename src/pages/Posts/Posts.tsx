@@ -10,13 +10,14 @@ export const Posts = () => {
     return (
         <FlexPrincipal alignCenter={true}>
             <PostsStyle>
-                {posts.map(({ title, description, imageURL }, index) => {
+                {posts.map(({ title, description, imageURL, createdAt }, index) => {
                     var isBlue:boolean = false;
                     if(index%2 === 0) isBlue = true;
-                    return <PostStyle key={title} blue={isBlue}>
+                    return <PostStyle key={title+index} blue={isBlue}>
                         <img src={imageURL} alt={title} />
                         <h2>{title}</h2>
                         <p>{description}</p>
+                        <p><strong>Created At:</strong>{createdAt}</p>
                     </PostStyle>
                 })}            
             </PostsStyle>

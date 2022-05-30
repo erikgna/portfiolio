@@ -6,4 +6,5 @@ export interface IPost{
     description: string;
     likes?: number;
     dislikes?: number;
+    createdAt?: string;
 }

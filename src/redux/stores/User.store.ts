@@ -7,10 +7,7 @@ import { AxiosResponse } from 'axios';
 
 const initialState:IUser = {
     name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    accessToken: '',
+    accessToken: ''
 }
 
 const user = createSlice({
@@ -20,10 +17,17 @@ const user = createSlice({
         login (state:IUser, action: PayloadAction<IUser>){
             state.accessToken = action.payload.accessToken;
             state.name = action.payload.name;
+
+            state.email = "";
+            state.password = "";
         },
         register (state:IUser, action: PayloadAction<IUser>){
             state.name = action.payload.name;
             state.accessToken = action.payload.accessToken;
+        
+            state.email = "";
+            state.password = "";
+            state.confirmPassword = "";
         },
         editUser (state:IUser, action: PayloadAction<IUser>){
             state.name = action.payload.name;
@@ -73,8 +77,8 @@ export function asyncRegister(user:IUser): any {
 
 export function asyncEditUser(user:IUser): any {
     return async function (dispatch: AppDispatch){
-        if(user.email !== undefined){
-            const response:AxiosResponse = await APIEditUser(user, user.email);
+        if(user.accessToken !== undefined){
+            const response:AxiosResponse = await APIEditUser(user, user.accessToken);
 
             user = response.data;
             localStorage.setItem("token", response.data.accessToken);

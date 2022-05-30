@@ -22,9 +22,7 @@ export const CreatePost = () => {
     const [post, setPost] = useState<IPost>({ 
         image: undefined,
         title: '',
-        description: '',
-        likes: 0,
-        dislikes: 0
+        description: ''
     })
 
     const inputChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
