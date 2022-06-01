@@ -1,12 +1,20 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { IPost } from '../../interfaces/post';
 import { RootState } from '../../redux';
+import { asyncAllPosts } from '../../redux/stores/Post.store';
 import { FlexPrincipal } from '../../styles/Global.styled'
 import { PostsStyle, PostStyle } from './Posts.styled'
 
 export const Posts = () => {
     const posts:IPost[] = useSelector((state: RootState) => state.post);
-    
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(asyncAllPosts())
+    }, [dispatch])
+
     return (
         <FlexPrincipal alignCenter={true}>
             <PostsStyle>

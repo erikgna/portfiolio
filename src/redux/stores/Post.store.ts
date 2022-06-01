@@ -5,18 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AxiosResponse } from 'axios';
 
-const initialState:IPost[] = [
-    {
-        imageURL: "https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg",
-        title: 'This is the title',
-        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
-    },
-    {
-        imageURL: "https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg",
-        title: 'This is the title',
-        description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
-    }
-];
+const initialState:IPost[] = [];
 
 const post = createSlice({
     name: 'post',
@@ -52,13 +41,10 @@ export default post.reducer;
 export function asyncAllPosts(): any {
     return async function (dispatch: AppDispatch){
         try {
-            //TODO: Alterar na API model de Post = imageURL
-
-            // const response:AxiosResponse = await APIAllPosts();
+            const response:AxiosResponse = await APIAllPosts();
             
-            // dispatch(allPosts(response?.data));
-            const teste:IPost[] = [{id: 1, title: "teste", description: "testetete"}];
-            dispatch(allPosts(teste));
+            const posts:IPost[] = response.data;
+            dispatch(allPosts(posts));
         } catch (error) {
             console.log(error);
         }
@@ -69,13 +55,14 @@ export function asyncNewPost(post:IPost): any {
     return async function (dispatch: AppDispatch){
         try {
             const response:AxiosResponse = await APINewPost(post);
+            console.log(response)
 
             post = {...post, id: response?.data};
             if(post.image) await asyncChangeImage(post);
             
             if(response.status === 201) dispatch(newPost(post)); 
         } catch (error) {
-            console.log(error);
+            window.location.assign("http://localhost:3000/error");
         }
     }
 }
