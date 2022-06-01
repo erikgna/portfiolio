@@ -22,6 +22,7 @@ public class UserRepository {
             user.setName(resultSet.getString("name"));
             user.setEmail(resultSet.getString("email"));
             user.setPassword(resultSet.getString("password"));
+            user.setAccessToken(resultSet.getString("access_token"));
         }
         return user;
     }
@@ -43,8 +44,8 @@ public class UserRepository {
 
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setString(1, user.getName());
-        statement.setString(2, user.getEmail());
-        statement.setString(3, user.getAccessToken());
+        statement.setString(2, user.getAccessToken());
+        statement.setString(3, user.getEmail());
 
         statement.executeUpdate();
     }

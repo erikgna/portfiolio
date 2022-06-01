@@ -1,4 +1,4 @@
-package com.own.portfolio.utils;
+package com.own.portfolio.middleware;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Component
 public class ConfigInterceptor extends WebMvcConfigurationSupport {
     @Autowired
-    LoginInterceptor loginInterceptor;
+    Auth auth;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor);
+        registry.addInterceptor(auth);
     }
 }
