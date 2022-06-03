@@ -16,7 +16,7 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private UserService userService;
-    private final String url = "http://localhost:3000";
+    private final String url = "http://127.0.0.1:3000";
 
     @CrossOrigin(origins = url)
     @PostMapping("/user/login")
@@ -28,12 +28,7 @@ public class UserController {
             if(Objects.equals(serviceAnswer, "406")) return ResponseEntity.status(406).body("Email or password not matching");
             if(Objects.equals(serviceAnswer, "400")) return ResponseEntity.status(406).body("Email invalid");
 
-            Cookie cookie = new Cookie("Authorization", serviceAnswer);
-            cookie.setSecure(true);
-            cookie.setMaxAge(12*60*60);
-            response.addCookie(cookie);
-
-            return ResponseEntity.status(200).body(null);
+            return ResponseEntity.status(200).body(serviceAnswer);
         } catch (Exception e){
             return ResponseEntity.status(500).body("Error recovering the user.");
         }

@@ -18,7 +18,7 @@ public class UserRepository {
         User user = new User();
 
         if(resultSet.next()){
-            user.setId(resultSet.getLong("id"));
+            user.setId(resultSet.getLong("userID"));
             user.setName(resultSet.getString("name"));
             user.setEmail(resultSet.getString("email"));
             user.setPassword(resultSet.getString("password"));
@@ -28,13 +28,12 @@ public class UserRepository {
     }
 
     public void createUser(User user) throws SQLException {
-        String sql = "INSERT INTO users(id, name, email, password) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO users(name, email, password) VALUES (?,?,?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setLong(1, user.getId());
-        statement.setString(2, user.getName());
-        statement.setString(3, user.getEmail());
-        statement.setString(4, user.getPassword());
+        statement.setString(1, user.getName());
+        statement.setString(2, user.getEmail());
+        statement.setString(3, user.getPassword());
 
         statement.executeUpdate();
     }

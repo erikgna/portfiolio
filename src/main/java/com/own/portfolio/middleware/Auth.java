@@ -20,19 +20,13 @@ public class Auth implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        final String requestName = request.getHeader("Request-Name");
-        if(Objects.equals(requestName, "register") || Objects.equals(requestName, "login")) return true;
+        final String requestName = request.getHeader("RequestName");
+        if(Objects.equals(requestName, "auth")) return true;
 
         final String method = request.getMethod();
 
         if(method.equalsIgnoreCase("post") || method.equalsIgnoreCase("put") || method.equalsIgnoreCase("delete")){
-            String token = "";
-            final Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals( "Authorization" )) token = cookie.getValue();
-                }
-            }
+            final String token = request.getHeader("Authorization");
 
             if(!Objects.equals(token, "")) {
                 String[] chunks = token.split("\\.");
@@ -44,6 +38,7 @@ public class Auth implements HandlerInterceptor {
                     JSONObject decodedSubject = new JSONObject(new JSONObject(payload).getString("sub"));
 
                     User user = userRepository.oneUser(decodedSubject.getString("email"));
+                    response.setStatus(403);
                     return Objects.equals(user.getAccessToken(), token);
                 }
             }

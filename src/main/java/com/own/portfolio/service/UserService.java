@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -26,19 +24,23 @@ public class UserService {
 
         if(Password.passwordsMatches(password, dbUser.getPassword())){
             JSONObject jsonToken = new JSONObject();
+            jsonToken.put("userID", dbUser.getId());
             jsonToken.put("email", dbUser.getEmail());
             jsonToken.put("name", dbUser.getName());
             final String token = Token.getToken(jsonToken.toString());
+            jsonToken.put("Authorization", token);
+            jsonToken.remove("email");
             dbUser.setAccessToken(token);
             userRepository.editUser(dbUser);
-            return token;
+            return jsonToken.toString();
         }
         return "406";
     }
 
     public int createUser(User user) throws SQLException {
-        if(user.getEmail().length() < 6
+        if(user.getEmail().length() <= 6
             || user.getPassword().length() < 6
+                || user.getConfirmPassword().length() < 6
             || user.getName().length() < 6) return 406;
 
         if(Objects.equals(user.getPassword(), user.getConfirmPassword())){

@@ -17,13 +17,24 @@ import java.util.Objects;
 public class PostController{
     @Autowired
     private PostService postService;
-    private final String url = "http://localhost:3000";
+    private final String url = "http://127.0.0.1:3000";
 
     @CrossOrigin(origins = url)
-    @GetMapping("/posts")
-    public ResponseEntity<ArrayList<Post>> allPosts() {
+    @GetMapping("/posts/pages")
+    public ResponseEntity<Integer> postsPages() {
         try{
-            ArrayList<Post> posts = postService.allPosts();
+            int pages = postService.postsPages();
+            return ResponseEntity.ok(pages);
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+    @CrossOrigin(origins = url)
+    @GetMapping("/posts/{page}")
+    public ResponseEntity<ArrayList<Post>> allPosts(@PathVariable int page) {
+        try{
+            ArrayList<Post> posts = postService.allPosts(page);
             return ResponseEntity.ok(posts);
         }
         catch (SQLException e) {
@@ -32,7 +43,19 @@ public class PostController{
     }
 
     @CrossOrigin(origins = url)
-    @GetMapping("/posts/{id}")
+    @GetMapping("/posts/user-posts/{userID}")
+    public ResponseEntity<ArrayList<Post>> userPosts(@PathVariable int userID) {
+        try{
+            ArrayList<Post> posts = postService.userPosts(userID);
+            return ResponseEntity.ok(posts);
+        }
+        catch (SQLException e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @CrossOrigin(origins = url)
+    @GetMapping("/post/{id}")
     public ResponseEntity<Post> onePost(@PathVariable int id) {
         try{
             Post post = postService.onePost(id);
@@ -45,16 +68,16 @@ public class PostController{
     }
 
     @CrossOrigin(origins = url)
-    @PostMapping("/posts")
+    @PostMapping("/posts/create/{userID}")
     @ResponseBody
-    public ResponseEntity<String> createPost(@RequestBody Post post) {
+    public ResponseEntity<Integer> createPost(@RequestBody Post post, @PathVariable int userID) {
         try{
-            if(Objects.equals(post.getTitle(), "") || Objects.equals(post.getDescription(), "")) return ResponseEntity.status(400).body("Title or description was empty.");
-            postService.savePost(post);
-            return ResponseEntity.status(201).body(null);
+            if(Objects.equals(post.getTitle(), "") || Objects.equals(post.getDescription(), "")) return ResponseEntity.status(400).body(null);
+            final int postID = postService.savePost(post, userID);
+            return ResponseEntity.status(201).body(postID);
         }
         catch (SQLException e) {
-            return ResponseEntity.status(500).body("An error has occurred while creating the post.");
+            return ResponseEntity.status(500).body(null);
         }
     }
 
@@ -63,16 +86,12 @@ public class PostController{
     @ResponseBody
     public ResponseEntity<String> updateImage(@RequestBody MultipartFile image, @PathVariable int id) throws IOException {
         try{
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.set("Content-Type", "application/form-data");
-            httpHeaders.set("Accept", "multipart/form-data");
+            final String serviceAnswer = postService.editImage(image, id);
 
-            final int serviceAnswer = postService.editImage(image, id);
+            if(Objects.equals(serviceAnswer, "400")) return ResponseEntity.status(400).body("No image sent.");
+            if(Objects.equals(serviceAnswer, "406")) return ResponseEntity.status(406).body("Wasn't possible to find the post");
 
-            if(serviceAnswer == 400) return ResponseEntity.status(serviceAnswer).body("No image sent.");
-            if(serviceAnswer == 406) return ResponseEntity.status(serviceAnswer).body("Wasn't possible to find the post");
-
-            return ResponseEntity.status(200).headers(httpHeaders).body(null);
+            return ResponseEntity.status(200).body(serviceAnswer);
         }
         catch (SQLException e) {
             return ResponseEntity.status(500).body("An error has occurred while editing the image.");
@@ -85,6 +104,7 @@ public class PostController{
     public ResponseEntity<String> updatePost(@RequestBody Post post, @PathVariable int id) {
         try{
             if(Objects.equals(post.getTitle(), "") || Objects.equals(post.getDescription(), "")) return ResponseEntity.status(400).body("Title or description was empty.");
+
             final int serviceAnswer = postService.editPost(post, id);
 
             if(serviceAnswer == 400) return ResponseEntity.status(serviceAnswer).body("Title and description are the same");
