@@ -55,7 +55,7 @@ export const Navbar = () => {
             <AiFillLinkedin></AiFillLinkedin>
           </Socials>
           <Socials>
-            <Link to='create-post'><Button width={125}>Create Post</Button></Link>
+            <Link to='create-post' onClick={() => setClicked(() => 'create-post')}><Button width={125}>Create Post</Button></Link>
           </Socials>
         </div>
       </Content>
