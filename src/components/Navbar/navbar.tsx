@@ -1,50 +1,54 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
-import { GiReactor } from 'react-icons/gi'
 import { Link } from 'react-router-dom';
 import { Button } from '../../styles/Global.styled';
 
-import { Links, NavbarSection, Content, Logo, Socials } from './Navbar.styled'
+import { Links, NavbarSection, Content, Socials } from './Navbar.styled'
 
 export const Navbar = () => {
   const [clicked, setClicked] = useState<string>('home');
 
+  useEffect(() => {
+    const url = window.location.pathname.slice(1);
+    setClicked(url)
+  }, [])
+
   return (
     <NavbarSection>
       <Content>
-        <Logo>
-          <GiReactor />
-        </Logo>
+        {/* <Logo> */}
+          {/* <GiReactor /> */}
+        {/* </Logo> */}
         <div>
           <Links>
-          <Link to='/'>
-              <li 
-                onClick={() => setClicked(() => 'home')}
-                className={clicked === 'home'? 'li-active' : ''}>
+          <li>
+              <Link to='/'
+                onClick={() => setClicked(() => '')}
+                className={clicked === ''? 'li-active' : ''}>
                   Home
-              </li>
-            </Link>
-            <Link to='/posts'>
-              <li 
+              </Link>
+            </li>
+            <li>
+              <Link to='/posts' 
                 onClick={() => setClicked(() => 'posts')}
                 className={clicked === 'posts'? 'li-active' : ''}>
                   Posts
-              </li>
-            </Link>
-            <Link to='/about'>
-              <li 
+              </Link>
+            </li>
+            <li>
+              <Link to='/about' 
                 onClick={() => setClicked(() => 'about')}
                 className={clicked === 'about'? 'li-active' : ''}>
                   About me
-              </li>
-            </Link>
-            <Link to='/contact'>
-              <li 
+              </Link>
+            </li>
+            <li>
+              <Link to='/contact' 
                 onClick={() => setClicked(() => 'contact')}
                 className={clicked === 'contact'? 'li-active' : ''}>
                   Contact
-              </li>
-            </Link>
+              </Link>
+            </li>
           </Links>
           <Socials>
             <AiFillGithub></AiFillGithub>

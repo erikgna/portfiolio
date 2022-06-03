@@ -52,3 +52,44 @@ export const PostStyle = styled.div<{blue:boolean}>`
         }
     }
 `
+
+export const PagesDiv = styled.div`
+    /* position: static;
+    bottom: 32px;
+    left: calc(50% + 75px);
+    transform: translate(-50%); */
+
+    display: flex;
+    align-self: center;
+
+    margin-bottom: 48px;
+
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 32px;
+        padding: 0 12px;
+
+        border: 1px solid #fa8072;
+        border-radius: 3px;
+
+        cursor: pointer;
+
+        &:not(:last-child){
+            margin-right: 16px;
+        }
+    }
+
+    .active-page{
+        background: #fa8072;
+    }
+
+    p{
+        font-size: 16px;
+        font-weight: 600;
+
+        color: #fff;
+    }
+`

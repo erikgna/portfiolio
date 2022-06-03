@@ -56,18 +56,20 @@ export const Links = styled.ul`
     .li-active{
         border-left: 3px solid salmon;
     }
-    
-    a{
-        color: #fff;
-        text-decoration: none;
+
+    li{
+        display: flex;
     }
 
-    li {
+    a {
+        color: #fff;
+        text-decoration: none;
+
         padding: 16px 24px;
 
         border-radius: 3px;
 
-        width: 150px;
+        min-width: 150px;
 
         font-size: 16px;
         font-weight: 600;

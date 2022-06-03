@@ -2,9 +2,9 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-import earthTexture from '../../assets/earth.jpg'
+import earthTexture from '../../assets/earth.webp'
 
-export const Earth = () => {
+const Earth = () => {
   const colorMap = new THREE.TextureLoader().load( earthTexture );
   const ref = useRef<THREE.Mesh>(null!)
 
@@ -19,3 +19,5 @@ export const Earth = () => {
     </mesh>
   )
 }
+
+export default Earth;

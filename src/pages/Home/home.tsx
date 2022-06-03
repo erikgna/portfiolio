@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber"; 
+import React, { useEffect, useState, Suspense } from "react";
 import { Link } from "react-router-dom";
 
 import { InformationSection, Span, HomeSection } from "./Home.styled";
-import { Earth } from "./Earth3D";
 import { Button } from "../../styles/Global.styled";
+
+const Earth = React.lazy(() => import("./Earth3D"));
+const Canvas = React.lazy(() => import("./CanvasDefault"));
 
 export const Home = () => {
   const [word, setWord] = useState('');
@@ -55,9 +56,11 @@ export const Home = () => {
           </Link>          
         </InformationSection>
         <div>
-          <Canvas style={{width: 'calc(45vw - 75px)', height: '100vh'}} >
-            <Earth />
-          </Canvas>
+          <Suspense fallback={ <div>Loading...</div> }>
+            <Canvas style={{width: 'calc(45vw - 75px)', height: '100vh'}} >
+              <Earth />
+            </Canvas>
+          </Suspense>
         </div>
     </HomeSection>
   )

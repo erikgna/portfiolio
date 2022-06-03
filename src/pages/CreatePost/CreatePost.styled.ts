@@ -67,9 +67,13 @@ export const InputImage = styled.div`
     background-size: 200%;
     transition: .3s ease-out;
 
+    label{
+        color: #bde7f5;
+    }
+
     &:hover{
         background-position: left;
-        color: #282828;
+        label {color: #282828; }
     }
 
     input{

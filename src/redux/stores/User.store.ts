@@ -2,12 +2,16 @@ import { AppDispatch } from '../index';
 import { IUser } from '../../interfaces/user';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { APISignin, APISignup, APIEditUser, APIChangePassword, APIChangeToken } from '../../api/user';
+import { APISignin, APISignup } from '../../api/user';
 import { AxiosResponse } from 'axios';
+import Cookies from 'universal-cookie';
+import { asyncUserPosts } from './Post.store';
+
+const cookies = new Cookies()
 
 const initialState:IUser = {
-    name: '',
-    accessToken: ''
+    userID: cookies.get('userID') || null,
+    name: cookies.get('name') || null
 }
 
 const user = createSlice({
@@ -15,45 +19,46 @@ const user = createSlice({
     initialState: initialState,
     reducers: {
         login (state:IUser, action: PayloadAction<IUser>){
-            state.accessToken = action.payload.accessToken;
+            state.userID = action.payload.userID;
             state.name = action.payload.name;
-
-            state.email = "";
-            state.password = "";
         },
         register (state:IUser, action: PayloadAction<IUser>){
             state.name = action.payload.name;
-            state.accessToken = action.payload.accessToken;
-        
-            state.email = "";
-            state.password = "";
-            state.confirmPassword = "";
         },
-        editUser (state:IUser, action: PayloadAction<IUser>){
-            state.name = action.payload.name;
-            state.accessToken = action.payload.accessToken;
-        },
-        changePassword (state:IUser, action: PayloadAction<IUser>){
-            state.accessToken = action.payload.accessToken;
-        },
-        changeToken (state:IUser, action: PayloadAction<IUser>){
-            state.accessToken = action.payload.accessToken;
-        }
+        // editUser (state:IUser, action: PayloadAction<IUser>){
+        //     state.name = action.payload.name;
+        //     state.accessToken = action.payload.accessToken;
+        // },
+        // changePassword (state:IUser, action: PayloadAction<IUser>){
+        //     state.accessToken = action.payload.accessToken;
+        // },
+        // changeToken (state:IUser, action: PayloadAction<IUser>){
+        //     state.accessToken = action.payload.accessToken;
+        // }
     }
 })
 
-export const { login, register, editUser, changePassword, changeToken } = user.actions;
+// export const { login, register, editUser, changePassword, changeToken } = user.actions;
+export const { login, register } = user.actions;
 export default user.reducer;
 
 export function asyncLogin(user:IUser): any {
     return async function (dispatch: AppDispatch){
         try {
-            const response:AxiosResponse = await APISignin(user);
+             const response:AxiosResponse = await APISignin(user);
 
-            user.accessToken = response.data;
-            localStorage.setItem('token', response.data);
+             cookies.set('Authorization', response.data['Authorization'], {
+                 maxAge: 7200
+             })
+             cookies.set('name', response.data['name'], {
+                maxAge: 7200
+            })
+            cookies.set('userID', response.data['userID'], {
+                maxAge: 7200
+            })
 
-            dispatch(login(user));
+            dispatch(login(response.data));
+            dispatch(asyncUserPosts(response.data['userID']))
         } catch (error) {
             console.log(error);
         }
@@ -61,52 +66,49 @@ export function asyncLogin(user:IUser): any {
 }
 
 export function asyncRegister(user:IUser): any {
-    return async function (dispatch: AppDispatch){
+    return async function (){
         try {
             const response:AxiosResponse = await APISignup(user);
-
-            user.accessToken = response.data;
-            localStorage.setItem('token', response.data);
-
-            dispatch(register(user));   
+             
+            if(response.status === 200) return true;
         } catch (error) {
             console.log(error);
         }
     }
 }
 
-export function asyncEditUser(user:IUser): any {
-    return async function (dispatch: AppDispatch){
-        if(user.accessToken !== undefined){
-            const response:AxiosResponse = await APIEditUser(user, user.accessToken);
+// export function asyncEditUser(user:IUser): any {
+//     return async function (dispatch: AppDispatch){
+//         if(user.accessToken !== undefined){
+//             const response:AxiosResponse = await APIEditUser(user, user.accessToken);
 
-            user = response.data;
-            localStorage.setItem("token", response.data.accessToken);
+//             user = response.data;
+//             localStorage.setItem("token", response.data.accessToken);
 
-            if(response.status === 200) console.log("Sucesso");
+//             if(response.status === 200) console.log("Sucesso");
 
-            dispatch(editUser(user));
-        }
-    }
-}
+//             dispatch(editUser(user));
+//         }
+//     }
+// }
 
-export function asyncChangePassword(user:IUser): any {
-    return async function (dispatch: AppDispatch){
-        const response:AxiosResponse = await APIChangePassword(user);
+// export function asyncChangePassword(user:IUser): any {
+//     return async function (dispatch: AppDispatch){
+//         const response:AxiosResponse = await APIChangePassword(user);
 
-        if(response.status === 200) console.log("Sucesso")
+//         if(response.status === 200) console.log("Sucesso")
 
-        dispatch(changePassword(user));
-    }
-}
+//         dispatch(changePassword(user));
+//     }
+// }
 
-export function asyncChangeToken(user:IUser): any {
-    return async function (dispatch: AppDispatch){
-        const response:AxiosResponse = await APIChangeToken(user);
+// export function asyncChangeToken(user:IUser): any {
+//     return async function (dispatch: AppDispatch){
+//         const response:AxiosResponse = await APIChangeToken(user);
 
-        user.accessToken = response.data;
-        localStorage.setItem('token', response.data);
+//         user.accessToken = response.data;
+//         localStorage.setItem('token', response.data);
 
-        dispatch(changeToken(user));
-    }
-}
+//         dispatch(changeToken(user));
+//     }
+// }

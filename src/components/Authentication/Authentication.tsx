@@ -37,7 +37,7 @@ export const Register:React.FC<{setIsLogin:React.Dispatch<React.SetStateAction<b
         </ColInput>
         <ColInput>
             <label htmlFor="name">Name</label>
-            <Input type="email" name='email' placeholder='Name' onChange={(e) => inputChange(e)} />
+            <Input type="text" name='name' placeholder='Name' onChange={(e) => inputChange(e)} />
         </ColInput>
         <ColInput>
             <label htmlFor="password">Password</label>
@@ -45,7 +45,7 @@ export const Register:React.FC<{setIsLogin:React.Dispatch<React.SetStateAction<b
         </ColInput>
         <ColInput>
             <label htmlFor="confirm-password">Confirm Password</label>
-            <Input type="password" name='confirm-password' placeholder='Confirm Password' onChange={(e) => inputChange(e)} />
+            <Input type="password" name='confirmPassword' placeholder='Confirm Password' onChange={(e) => inputChange(e)} />
         </ColInput>
         <Buttons>
             <Button width={225} onClick={(e) => submit(e)}>Register</Button>

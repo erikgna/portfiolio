@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <section className='flex'>
-        <Navbar></Navbar>
+        <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/posts' element={<Posts />} />

@@ -5,7 +5,7 @@ import { AnimatedLetter } from '../../components/AnimatedLetter/AnimatedLetter';
 import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.styled';
 import { FlexPrincipal } from '../../styles/Global.styled';
 
-import { ProgressBarStyles, Description, Skills } from './About.styled';
+import { Description, ProgressBarStyles, Skills } from './About.styled';
 
 const SkillsValues:{level:number, name:string}[] = [
     { level: 200, name: 'HTML / CSS / JavaScript' },
