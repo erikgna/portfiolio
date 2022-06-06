@@ -1,16 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IError } from '../../interfaces/error';
 
-const initialState:string = "";
+const initialState:IError = {
+    authErrorMessage: ""
+};
 
 const error = createSlice({
     name: 'error',
     initialState: initialState,
     reducers: {
-        setError (state:string, action: PayloadAction<string>){
-            state = action.payload;
+        setAuthError (state:IError, action: PayloadAction<string>){
+            state.authErrorMessage = action.payload;
         },
     }
 })
 
-export const { setError } = error.actions;
+export const { setAuthError } = error.actions;
 export default error.reducer;

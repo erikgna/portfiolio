@@ -1,12 +1,16 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { IError } from '../../interfaces/error';
 import { IUser } from '../../interfaces/user';
 import { ColInput } from '../../pages/CreatePost/CreatePost.styled'
+import { RootState } from '../../redux';
+import { setAuthError } from '../../redux/stores/Error.store';
 import { asyncRegister, asyncLogin } from '../../redux/stores/User.store'
 import { Button, ButtonBlue, Form, Input } from '../../styles/Global.styled'
 import { Buttons } from './Authentication.styled'
 
 export const Register:React.FC<{setIsLogin:React.Dispatch<React.SetStateAction<boolean>>}> = ( {setIsLogin} ) => {
+    const error:IError = useSelector((state: RootState) => state.error);
     const dispatch = useDispatch();
 
     const [registerForm, setRegisterForm] = useState<IUser>({
@@ -47,15 +51,20 @@ export const Register:React.FC<{setIsLogin:React.Dispatch<React.SetStateAction<b
             <label htmlFor="confirm-password">Confirm Password</label>
             <Input type="password" name='confirmPassword' placeholder='Confirm Password' onChange={(e) => inputChange(e)} />
         </ColInput>
+        <p>{error.authErrorMessage}</p>
         <Buttons>
             <Button width={225} onClick={(e) => submit(e)}>Register</Button>
-            <ButtonBlue style={{marginLeft: '24px'}} width={225} onClick={() => setIsLogin(true)}>Have an account?</ButtonBlue>
+            <ButtonBlue style={{marginLeft: '24px'}} width={225} onClick={() => {
+                setIsLogin(true);
+                dispatch(setAuthError(""));
+                }}>Have an account?</ButtonBlue>
         </Buttons>
     </Form>
   )
 }
 
 export const Login:React.FC<{setIsLogin:React.Dispatch<React.SetStateAction<boolean>>}> = ( {setIsLogin} ) => {
+    const error:IError = useSelector((state: RootState) => state.error);
     const dispatch = useDispatch();
 
     const [loginForm, setLoginForm] = useState<IUser>({
@@ -86,9 +95,13 @@ export const Login:React.FC<{setIsLogin:React.Dispatch<React.SetStateAction<bool
                 <label htmlFor="password">Password</label>
                 <Input type="password" name='password' placeholder='Password' onChange={(e) => inputChange(e)} />
             </ColInput>
+            <p>{error.authErrorMessage}</p>
             <Buttons>
                 <Button width={225} onClick={(e) => submit(e)}>Login</Button>
-                <ButtonBlue style={{marginLeft: '24px'}} width={225} onClick={() => setIsLogin(false)}>Doesn't have an account?</ButtonBlue>
+                <ButtonBlue style={{marginLeft: '24px'}} width={225} onClick={() => {
+                    setIsLogin(false);
+                    dispatch(setAuthError(""));
+                }}>Doesn't have an account?</ButtonBlue>
             </Buttons>
         </Form>
     )

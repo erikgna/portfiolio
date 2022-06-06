@@ -4,7 +4,7 @@ import { AppDispatch } from '../index';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AxiosResponse } from 'axios';
-import { setError } from './Error.store';
+// import { setAuthError } from './Error.store';
 
 const initialState:IPost[] | number = [];
 
@@ -49,7 +49,7 @@ export function asyncAllPosts(page:number): any {
             const posts:IPost[] = response.data;
             dispatch(allPosts(posts));
         } catch (error) {
-            dispatch(setError("Ocorreu um erro desconhecido."));
+            
         }
     }
 }
@@ -61,9 +61,8 @@ export function asyncUserPosts(userID:number | undefined): any {
 
             const posts:IPost[] = response.data;
             dispatch(userPosts(posts));
-        } catch (error) {
-            console.log(error);
-            console.log('error');
+        } catch (error:any) {
+            // console.log(error['response']['status'])
         }
     }
 }

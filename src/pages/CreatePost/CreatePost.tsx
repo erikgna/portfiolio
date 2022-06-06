@@ -17,7 +17,6 @@ import { Login, Register } from '../../components/Authentication/Authentication'
 export const CreatePost = () => {
     const user:IUser = useSelector((state: RootState) => state.user);
     const posts:IPost[] = useSelector((state: RootState) => state.post);
-    const error:string = useSelector((state: RootState) => state.error);
     const dispatch = useDispatch();
     
     const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -115,7 +114,6 @@ export const CreatePost = () => {
 
                 {user.name&& 
                     <YourPosts>
-                        {error}
                         <h3>Here you can see all your posts and edit it</h3>
                         {posts.map((post, index) => {
                             return <YourPost key={index} post={post} buttons={{deletePost, updatePost}} />

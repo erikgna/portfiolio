@@ -6,6 +6,7 @@ import { APISignin, APISignup } from '../../api/user';
 import { AxiosResponse } from 'axios';
 import Cookies from 'universal-cookie';
 import { asyncUserPosts } from './Post.store';
+import { setAuthError } from './Error.store';
 
 const cookies = new Cookies()
 
@@ -49,30 +50,30 @@ export function asyncLogin(user:IUser): any {
 
              cookies.set('Authorization', response.data['Authorization'], {
                  maxAge: 7200
-             })
+             });
              cookies.set('name', response.data['name'], {
                 maxAge: 7200
-            })
+            });
             cookies.set('userID', response.data['userID'], {
                 maxAge: 7200
-            })
+            });
 
             dispatch(login(response.data));
             dispatch(asyncUserPosts(response.data['userID']))
-        } catch (error) {
-            console.log(error);
+        } catch (error:any) {
+            dispatch(setAuthError(error['response']['data']));
         }
     }
 }
 
 export function asyncRegister(user:IUser): any {
-    return async function (){
+    return async function (dispatch: AppDispatch){
         try {
             const response:AxiosResponse = await APISignup(user);
              
             if(response.status === 200) return true;
-        } catch (error) {
-            console.log(error);
+        } catch (error:any) {
+            dispatch(setAuthError(error['response']['data']));
         }
     }
 }
