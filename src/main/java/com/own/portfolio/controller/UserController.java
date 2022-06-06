@@ -37,9 +37,13 @@ public class UserController {
     @CrossOrigin(origins = url)
     @PostMapping("/user/register")
     @ResponseBody
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<String> createUser(@RequestBody User user){
         try{
             final int serviceAnswer = userService.createUser(user);
+
+            if(serviceAnswer == 400) return ResponseEntity.status(serviceAnswer).body("Passwords doesn't match.");
+            if(serviceAnswer == 406) return ResponseEntity.status(serviceAnswer).body("Credentials too short;");
+
 
             return ResponseEntity.status(serviceAnswer).body(null);
         }

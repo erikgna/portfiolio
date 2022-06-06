@@ -17,7 +17,7 @@ import java.util.Objects;
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
     public String login(String email, String password) throws SQLException {
-        if(email.length() < 6) return "400";
+        if(email.length() < 6 || password.length() < 6) return "400";
 
         final User dbUser = userRepository.oneUser(email);
         if(dbUser == null) return "406";
@@ -50,7 +50,7 @@ public class UserService {
             return 200;
         }
 
-        return 406;
+        return 400;
     }
 
     public void editUser(User user) throws NoSuchAlgorithmException, SQLException {
