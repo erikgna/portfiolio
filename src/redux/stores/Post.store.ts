@@ -4,6 +4,7 @@ import { AppDispatch } from '../index';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AxiosResponse } from 'axios';
+import { setPostError } from './Error.store';
 // import { setAuthError } from './Error.store';
 
 const initialState:IPost[] | number = [];
@@ -48,8 +49,8 @@ export function asyncAllPosts(page:number): any {
 
             const posts:IPost[] = response.data;
             dispatch(allPosts(posts));
-        } catch (error) {
-            
+        } catch (error:any) {
+            dispatch(setPostError("An error occurred while trying to get the posts."));
         }
     }
 }
@@ -62,7 +63,8 @@ export function asyncUserPosts(userID:number | undefined): any {
             const posts:IPost[] = response.data;
             dispatch(userPosts(posts));
         } catch (error:any) {
-            // console.log(error['response']['status'])
+            if (error['response']['status'] === 403) dispatch(setPostError("Please, login to your account to see your posts."));
+            else dispatch(setPostError("An error occurred while trying to get the posts."));
         }
     }
 }
@@ -80,37 +82,52 @@ export function asyncNewPost(post:IPost, userID:number | undefined): any {
             }
             
             if(response.status === 201) dispatch(newPost(post)); 
-        } catch (error) {
-            //window.location.assign("http://localhost:3000/error");
+        } catch (error:any) {
+            if (error['response']['status'] === 400) dispatch(setPostError("Please, complete the form."));
+            else if (error['response']['status'] === 403) dispatch(setPostError("Login to your account to create a post."));
+            else if (error['response']['status'] === 406) dispatch(setPostError("An error ocurred while adding the post image."));
+            else dispatch(setPostError("An error occurred while creating the post."));
         }
     }
 }
 
 export function asyncUpdatePost(post:IPost): any {
     return async function (dispatch: AppDispatch){
-        if(post.image) dispatch(asyncChangeImage(post));
-        post.image = "";
-
-        const response:AxiosResponse = await APIUpdatePost(post);        
-
-        if(response.status === 200) dispatch(updatePost(post));
+        try {
+            if(post.image) dispatch(asyncChangeImage(post));
+            post.image = "";
+    
+            const response:AxiosResponse = await APIUpdatePost(post);        
+    
+            if(response.status === 200) dispatch(updatePost(post));   
+        } catch (error:any) {
+            dispatch(setPostError(error['response']['data']));
+        }
     }
 }
 
 export function asyncChangeImage(post:IPost): any {
     return async function (dispatch: AppDispatch){
-        const response:AxiosResponse = await APIChangeImage(post);
+        try {
+            const response:AxiosResponse = await APIChangeImage(post);
 
-        post = {...post, image: response.data}
-
-        dispatch(changeImage(post));
+            post = {...post, image: response.data}
+    
+            dispatch(changeImage(post));   
+        } catch (error:any) {
+            dispatch(setPostError(error['response']['data']));
+        }
     }
 }
 
 export function asyncDeletePost(post:IPost): any {
     return async function (dispatch: AppDispatch){
-        const response:AxiosResponse = await APIDeletePost(post);
+        try {
+            const response:AxiosResponse = await APIDeletePost(post);
 
-        if(response.status === 200) dispatch(deletePost(post));
+            if(response.status === 200) dispatch(deletePost(post));   
+        } catch (error:any) {
+            dispatch(setPostError(error['response']['data']));
+        }
     }
 }

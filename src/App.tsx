@@ -6,6 +6,7 @@ import { About } from './pages/About/About';
 import { Contact } from './pages/Contact/Contact';
 import { Home } from './pages/Home/Home';
 import { CreatePost } from './pages/CreatePost/CreatePost';
+import { Auth } from './pages/Auth/Auth';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/create-post' element={<CreatePost />} />
+          <Route path='/auth' element={<Auth />} />
         </Routes>
       </section>
     </Router>

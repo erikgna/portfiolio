@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { AiOutlineLinkedin, AiOutlineMail, AiOutlineWhatsApp } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
 import { AnimatedLetter } from '../../components/AnimatedLetter/AnimatedLetter'
 import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.styled'
 import { IContact } from '../../interfaces/contact'
@@ -49,12 +48,12 @@ export const Contact = () => {
                         <AiOutlineWhatsApp />
                         <p>+55 (51) 920007599</p>
                     </div>
-                    <Link to='https://www.linkedin.com/in/erik-na-37817b177/'>
+                    <a href='https://www.linkedin.com/in/erik-na-37817b177/' target="blank" >
                         <div>
                             <AiOutlineLinkedin />
                             <p>Erik Gabriel Na</p>
                         </div>
-                    </Link>
+                    </a>
                 </ContactWays>
             </Description>
             <Form>

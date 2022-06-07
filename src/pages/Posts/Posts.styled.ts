@@ -7,21 +7,27 @@ export const PostsStyle = styled.div`
 
     padding-top: 48px;
     padding-left: 48px;
-    padding-right: 48px;
+
+    @media(max-width: 767px){
+        flex-direction: column;
+
+        padding-left: 0;
+
+        padding-top: 64px;
+    }
 `
 
 export const PostStyle = styled.div<{blue:boolean}>`
-    max-width: 440px;
-    min-width: 352px;
+    width: 352px;
 
     display: flex;
     flex-direction: column;
 
     background: #202020;
 
-    padding: 40px;
-    margin-right: 48px;
-    margin-bottom: 48px;
+    padding: 32px;
+    margin-right: 32px;
+    margin-bottom: 32px;
 
     border-radius: 6px;
 
@@ -50,6 +56,14 @@ export const PostStyle = styled.div<{blue:boolean}>`
             margin-bottom: 8px;
             margin-top: 16px;
         }
+    }
+
+    strong{
+        padding-top: 16px;
+    }
+
+    @media(max-width: 767px){
+        margin-right: 0;
     }
 `
 
@@ -92,4 +106,15 @@ export const PagesDiv = styled.div`
 
         color: #fff;
     }
+`
+
+export const PostImage = styled.div`
+    width: 100%;
+    height: 280px;
+
+    border-radius: 3px;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 `

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 import { IPost } from '../../interfaces/post'
 import { IUser } from '../../interfaces/user';
@@ -9,17 +10,18 @@ import { RootState } from '../../redux';
 import { AnimatedLetter } from '../../components/AnimatedLetter/AnimatedLetter';
 import { YourPost } from '../../components/YourPost/YourPost';
 
-import { FlexPrincipal, Button, Form, Input, TextArea } from '../../styles/Global.styled';
+import { FlexPrincipal, Button, Input, TextArea } from '../../styles/Global.styled';
 import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.styled';
-import { CreatePostStyle, InputImage, ColInput, YourPosts } from './CreatePost.styled';
-import { Login, Register } from '../../components/Authentication/Authentication';
+import { CreatePostStyle, InputImage, ColInput, YourPosts, ErrorMessage, FormPost } from './CreatePost.styled';
+import { IError } from '../../interfaces/error';
 
 export const CreatePost = () => {
     const user:IUser = useSelector((state: RootState) => state.user);
     const posts:IPost[] = useSelector((state: RootState) => state.post);
+    const error:IError = useSelector((state: RootState) => state.error);
     const dispatch = useDispatch();
-    
-    const [isLogin, setIsLogin] = useState<boolean>(true);
+    const navigate = useNavigate();
+
     const [isCreating, setIsCreating] = useState<boolean>(true);
 
     const [post, setPost] = useState<IPost>({ 
@@ -54,13 +56,14 @@ export const CreatePost = () => {
     }
 
     useEffect(() => {
-        dispatch(asyncUserPosts(user.userID));
-    }, [dispatch, user])
+        if(!user.name) navigate('/auth');
+        if(user.name) dispatch(asyncUserPosts(user.userID));
+    }, [dispatch, user, navigate])
 
     return (
         <FlexPrincipal alignCenter={true}>
             <CreatePostStyle>
-                <Form onSubmit={(e) => submit(e)}>
+                {user.name&& <FormPost onSubmit={(e) => submit(e)}>
                     {isCreating?
                         <AnimatedH2>
                             <AnimatedLetter letter='C' />
@@ -101,15 +104,9 @@ export const CreatePost = () => {
                             <input type="file" id="image" name='image' onChange={(e) => changeImage(e)} />
                         </InputImage>
                     </ColInput>
+                    <ErrorMessage style={{marginTop: '-24px', marginBottom: '48px'}}>{error.postErrorMessage}</ErrorMessage>
                     <Button width={225}>Send Post</Button>
-                </Form>
-
-                {!user.name&& isLogin&&
-                    <Login setIsLogin={setIsLogin} />
-                }
-
-                {!user.name&& !isLogin&&
-                    <Register setIsLogin={setIsLogin} />
+                </FormPost>
                 }
 
                 {user.name&& 

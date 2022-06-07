@@ -6,7 +6,7 @@ import { IPost } from '../../interfaces/post';
 import { RootState } from '../../redux';
 import { asyncAllPosts } from '../../redux/stores/Post.store';
 import { FlexPrincipal } from '../../styles/Global.styled'
-import { PagesDiv, PostsStyle, PostStyle } from './Posts.styled'
+import { PagesDiv, PostImage, PostsStyle, PostStyle } from './Posts.styled'
 
 export const Posts = () => {
     const posts:IPost[] = useSelector((state: RootState) => state.post);
@@ -42,10 +42,10 @@ export const Posts = () => {
                         var isBlue:boolean = false;
                         if(index%2 === 0) isBlue = true;
                         return <PostStyle key={index} blue={isBlue}>
-                            { typeof image === "string"&& <img src={image} alt={title} />} 
+                            { typeof image === "string"&& <PostImage style={{backgroundImage: `url('${image}')`}} />} 
                             <h2>{title}</h2>
                             <p>{description}</p>
-                            <p><strong>Created At:</strong>{createdAt}</p>
+                            <p><strong>Created At: </strong>{new Date(createdAt || 0).toLocaleDateString("en-US")}</p>
                         </PostStyle>
                     })}
                 </PostsStyle>

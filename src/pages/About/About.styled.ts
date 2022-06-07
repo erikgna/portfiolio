@@ -13,6 +13,10 @@ export const ProgressBarStyles = styled(motion.div)<{size:number}>`
     &:hover{
         background-position: left;
     }
+
+    @media(max-width: 767px){
+        width: 100%;
+    }
 `
 
 export const Description = styled.div`
@@ -23,6 +27,7 @@ export const Description = styled.div`
 
     color: #fff;
 
+    padding-top: 32px;
     padding-left: 48px;
     padding-right: 128px;
 
@@ -44,6 +49,13 @@ export const Description = styled.div`
             opacity: .65;
         }
     }
+
+    @media(max-width: 767px){
+        width: 100vw;
+
+        padding-right: 16px;
+        padding-left: 16px;
+    }
 `
 
 export const Skills = styled.div`
@@ -60,5 +72,15 @@ export const Skills = styled.div`
 
         margin-top: 24px;
         margin-bottom: 8px;
+    }
+
+    @media(max-width: 767px){
+        width: 100%;
+
+        margin-top: 48px;
+
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 0;
     }
 `

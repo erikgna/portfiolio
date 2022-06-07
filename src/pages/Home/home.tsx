@@ -1,11 +1,10 @@
 import React, { useEffect, useState, Suspense } from "react";
-import { Link } from "react-router-dom";
 
-import { InformationSection, Span, HomeSection } from "./Home.styled";
+import { InformationSection, Span, HomeSection, DObject } from "./Home.styled";
 import { Button } from "../../styles/Global.styled";
 
-const Earth = React.lazy(() => import("./Earth3D"));
-const Canvas = React.lazy(() => import("./CanvasDefault"));
+const Earth = React.lazy(() => import("../../components/3DCanvas/Earth3D"));
+const Canvas = React.lazy(() => import("../../components/3DCanvas/CanvasDefault"));
 
 export const Home = () => {
   const [word, setWord] = useState('');
@@ -51,17 +50,17 @@ export const Home = () => {
             <br />I'm Erik,<br /><Span>{word}</Span> developer
           </h1>
           <p>Frontend Developer / Backend Developer / DevOps</p>
-          <Link to='/contact'>
+          <a href='/contact'>
             <Button width={225}>Contact me</Button>
-          </Link>          
+          </a>          
         </InformationSection>
-        <div>
+        <DObject>
           <Suspense fallback={ <div>Loading...</div> }>
             <Canvas style={{width: 'calc(45vw - 75px)', height: '100vh'}} >
               <Earth />
             </Canvas>
           </Suspense>
-        </div>
+        </DObject>
     </HomeSection>
   )
 }

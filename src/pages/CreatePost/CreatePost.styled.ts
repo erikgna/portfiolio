@@ -1,7 +1,10 @@
 import styled from "styled-components";
+import { Form } from "../../styles/Global.styled";
 
 export const CreatePostStyle = styled.div`
     display: flex;
+    flex-direction: column;
+
     justify-content: space-evenly;
     align-items: center;
 
@@ -19,12 +22,15 @@ export const CreatePostStyle = styled.div`
 
         margin-bottom: 48px;
     }
+`
 
-    form:first-child{
-        width: calc(50% - 75px);
-    }
-    form:last-child{
-        width: calc(50% - 75px);
+export const FormPost = styled(Form)`
+    width: 70vw;
+
+    @media(max-width: 767px){
+        width: 95vw;
+
+        padding-left: 32px;
     }
 `
 
@@ -91,11 +97,14 @@ export const YourPosts = styled.div`
     padding-top: 64px;
     margin-left: 48px;
 
-    height: 100vh;
-
-    overflow-y: scroll;
-
     &::-webkit-scrollbar {
         width: 5px;
     }
+`
+
+export const ErrorMessage = styled.p`
+    color: #f44336;
+
+    font-weight: 600;
+    font-size: 18px;
 `

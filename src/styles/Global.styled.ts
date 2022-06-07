@@ -5,12 +5,19 @@ export const FlexPrincipal = styled.section<{alignCenter:boolean}>`
     min-height: 100vh;
 
     padding-left: 150px;
+    padding-bottom: 40px;
 
     background: #282828;
 
     display: flex;
     justify-content: center;
     align-items: ${props => props.alignCenter&& 'center'};
+
+    @media(max-width: 767px){
+        flex-direction: column;
+
+        padding-left: 0;
+    }
 `
 
 export const Button = styled.button<{width:number}>`
@@ -36,6 +43,14 @@ export const Button = styled.button<{width:number}>`
     &:hover{
         background-position: left;
         color: #282828;
+    }
+
+    @media(max-width: 767px){
+        width: 190px;
+    }
+
+    @media(max-width: 450px){
+        width: 150px;
     }
 `
 
@@ -152,9 +167,13 @@ export const Form = styled.form`
 
     display: flex;
     flex-direction: column;
-
-    margin-left: 48px;
+    
     margin-top: 48px;
+
+    @media(max-width: 767px){
+        padding-left: 0;
+        padding-right: 0;
+    }
 `
 
 //#fa8072 salmon

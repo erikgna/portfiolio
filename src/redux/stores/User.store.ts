@@ -8,7 +8,7 @@ import Cookies from 'universal-cookie';
 import { asyncUserPosts } from './Post.store';
 import { setAuthError } from './Error.store';
 
-const cookies = new Cookies()
+const cookies = new Cookies();
 
 const initialState:IUser = {
     userID: cookies.get('userID') || null,
@@ -60,6 +60,8 @@ export function asyncLogin(user:IUser): any {
 
             dispatch(login(response.data));
             dispatch(asyncUserPosts(response.data['userID']))
+
+            window.location.href = 'http://127.0.0.1:3000/create-post';
         } catch (error:any) {
             dispatch(setAuthError(error['response']['data']));
         }

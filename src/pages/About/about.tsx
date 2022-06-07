@@ -65,7 +65,7 @@ export const About = () => {
                 I've also learned and worked in personal projects using backend, database and DevOps technologies.
                 <br />
                 <br />
-                Visit my <a href='https://github.com'>Linkedin</a> profile or <a href='https://github.com'>contact me</a> for more details.
+                Visit my <a href='https://www.linkedin.com/in/erik-na-37817b177/' target="blank">Linkedin</a> profile or <a href='https://github.com/erikgna' target="blank">contact me</a> for more details.
             </p>
         </Description>
 
@@ -85,7 +85,7 @@ export const About = () => {
 
 const SkillProgressBar: React.FC<{size:number}> = ( {size} ) => {
     const squareVariants = {
-        visible: { backgroundPosition: 'left' },
+        visible: { backgroundPosition: '0% 100%' },
     };
     const controls = useAnimation();
     const [ref, inView] = useInView();

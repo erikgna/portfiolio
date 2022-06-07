@@ -29,11 +29,25 @@ export const HomeSection = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media(max-width: 767px){
+        flex-direction: column;
+        justify-content: center;
+
+        padding-left: 0;
+    }
 `
 
 export const Span = styled.span`
     color: #fa8072;
 `
+
+export const DObject = styled.div`
+    @media(max-width: 767px){
+        display: none;
+    }
+`
+
 
 export const InformationSection = styled.div`
     display: flex;
@@ -67,4 +81,9 @@ export const InformationSection = styled.div`
         animation-duration: 5s;
         animation-timing-function: ease-in-out;
     }
+
+    @media(max-width: 767px){
+        width: 100vw;
+    }
 `
+
