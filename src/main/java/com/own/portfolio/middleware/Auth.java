@@ -28,7 +28,7 @@ public class Auth implements HandlerInterceptor {
         if(method.equalsIgnoreCase("post") || method.equalsIgnoreCase("put") || method.equalsIgnoreCase("delete")){
             final String token = request.getHeader("Authorization");
 
-            if(!Objects.equals(token, "")) {
+            if(!Objects.equals(token, "undefined")) {
                 String[] chunks = token.split("\\.");
                 Base64.Decoder decoder = Base64.getUrlDecoder();
                 String payload = new String(decoder.decode(chunks[1]));

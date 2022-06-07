@@ -40,8 +40,7 @@ public class UserService {
     public int createUser(User user) throws SQLException {
         if(user.getEmail().length() <= 6
             || user.getPassword().length() < 6
-                || user.getConfirmPassword().length() < 6
-            || user.getName().length() < 6) return 406;
+                || user.getConfirmPassword().length() < 6) return 406;
 
         if(Objects.equals(user.getPassword(), user.getConfirmPassword())){
             user.setPassword(Password.getHashedPassword(user.getPassword()));

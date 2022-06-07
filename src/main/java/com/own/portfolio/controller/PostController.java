@@ -63,7 +63,7 @@ public class PostController{
             return ResponseEntity.ok(post);
         }
         catch (SQLException e) {
-            return ResponseEntity.status(502).body(null);
+            return ResponseEntity.status(500).body(null);
         }
     }
 
@@ -73,7 +73,7 @@ public class PostController{
     public ResponseEntity<Integer> createPost(@RequestBody Post post, @PathVariable int userID) {
         try{
             if(Objects.equals(post.getTitle(), "") || Objects.equals(post.getDescription(), "")) return ResponseEntity.status(400).body(null);
-            final int postID = postService.savePost(post, userID);
+            int postID = postService.savePost(post, userID);
             return ResponseEntity.status(201).body(postID);
         }
         catch (SQLException e) {
