@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { AnimatedLetter } from '../../components/AnimatedLetter/AnimatedLetter';
 import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.styled';
-import { FlexPrincipal } from '../../styles/Global.styled';
+import { ContactPage } from '../Contact/Contact.styled';
 
 import { Description, ProgressBarStyles, Skills } from './About.styled';
 
@@ -23,7 +23,7 @@ const SkillsValues:{level:number, name:string}[] = [
 
 export const About = () => {
   return (
-    <FlexPrincipal alignCenter={true}>
+    <ContactPage>
         <Description>
             <AnimatedH2>
                 <AnimatedLetter letter='S' />
@@ -79,7 +79,7 @@ export const About = () => {
             ))}
             
         </Skills>
-    </FlexPrincipal>
+    </ContactPage>
   )
 }
 

@@ -7,6 +7,7 @@ import { Contact } from './pages/Contact/Contact';
 import { Home } from './pages/Home/Home';
 import { CreatePost } from './pages/CreatePost/CreatePost';
 import { Auth } from './pages/Auth/Auth';
+import { NotFound } from './components/NotFound/NotFound';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/create-post' element={<CreatePost />} />
           <Route path='/auth' element={<Auth />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </section>
     </Router>

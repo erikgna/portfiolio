@@ -6,7 +6,7 @@ import { IPost } from '../../interfaces/post';
 import { RootState } from '../../redux';
 import { asyncAllPosts } from '../../redux/stores/Post.store';
 import { FlexPrincipal } from '../../styles/Global.styled'
-import { PagesDiv, PostImage, PostsStyle, PostStyle } from './Posts.styled'
+import { NoPost, PagesDiv, PostImage, PostsStyle, PostStyle } from './Posts.styled'
 
 export const Posts = () => {
     const posts:IPost[] = useSelector((state: RootState) => state.post);
@@ -38,7 +38,8 @@ export const Posts = () => {
         <FlexPrincipal alignCenter={true}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 <PostsStyle>
-                    {posts.map(({ title, description, image, createdAt }, index) => {
+                    {posts.length === 0? <NoPost>No posts found</NoPost>:
+                    posts.map(({ title, description, image, createdAt }, index) => {
                         var isBlue:boolean = false;
                         if(index%2 === 0) isBlue = true;
                         return <PostStyle key={index} blue={isBlue}>

@@ -3,7 +3,7 @@ import { AiFillGithub, AiFillLinkedin, AiOutlineCloseCircle, AiOutlineMenu } fro
 import { Link } from 'react-router-dom';
 import { Button } from '../../styles/Global.styled';
 
-import { Links, NavbarSection, Content, Socials, Social } from './Navbar.styled'
+import { Links, NavbarSection, Content, Socials, Social, Logo } from './Navbar.styled'
 
 export const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
@@ -17,9 +17,9 @@ export const Navbar = () => {
   return (
     <NavbarSection>
       <Content>
-        {/* <Logo> */}
-          {/* <GiReactor /> */}
-        {/* </Logo> */}
+        <Logo>
+          <h1>Erik</h1>
+        </Logo>
         <div>
           <Links>
           <li>

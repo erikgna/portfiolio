@@ -31,7 +31,7 @@ export const Auth = () => {
 
     const submit = (event:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-
+        
         if(!isLogin){
             dispatch(asyncRegister(dataForm));
             if(error.authErrorMessage === "") setIsLogin(true);

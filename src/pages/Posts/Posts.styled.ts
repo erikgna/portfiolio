@@ -118,3 +118,13 @@ export const PostImage = styled.div`
     background-repeat: no-repeat;
     background-position: center;
 `
+
+export const NoPost = styled.h1`
+    color: #fa8072;
+
+    font-size: 24px;
+
+    margin-bottom: 64px;
+
+    margin-left: -48px;
+`

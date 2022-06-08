@@ -26,20 +26,9 @@ const user = createSlice({
         register (state:IUser, action: PayloadAction<IUser>){
             state.name = action.payload.name;
         },
-        // editUser (state:IUser, action: PayloadAction<IUser>){
-        //     state.name = action.payload.name;
-        //     state.accessToken = action.payload.accessToken;
-        // },
-        // changePassword (state:IUser, action: PayloadAction<IUser>){
-        //     state.accessToken = action.payload.accessToken;
-        // },
-        // changeToken (state:IUser, action: PayloadAction<IUser>){
-        //     state.accessToken = action.payload.accessToken;
-        // }
     }
 })
 
-// export const { login, register, editUser, changePassword, changeToken } = user.actions;
 export const { login, register } = user.actions;
 export default user.reducer;
 
@@ -59,10 +48,14 @@ export function asyncLogin(user:IUser): any {
             });
 
             dispatch(login(response.data));
-            dispatch(asyncUserPosts(response.data['userID']))
+            dispatch(asyncUserPosts(response.data['userID']));
 
             window.location.href = 'http://127.0.0.1:3000/create-post';
         } catch (error:any) {
+            if(error['response']['data'] === undefined){
+                dispatch(setAuthError('An unexpected error occurred.'));
+                return;
+            }
             dispatch(setAuthError(error['response']['data']));
         }
     }
@@ -75,43 +68,11 @@ export function asyncRegister(user:IUser): any {
              
             if(response.status === 200) return true;
         } catch (error:any) {
+            if(error['response']['data'] === undefined){
+                dispatch(setAuthError('An unexpected error occurred.'));
+                return;
+            }
             dispatch(setAuthError(error['response']['data']));
         }
     }
 }
-
-// export function asyncEditUser(user:IUser): any {
-//     return async function (dispatch: AppDispatch){
-//         if(user.accessToken !== undefined){
-//             const response:AxiosResponse = await APIEditUser(user, user.accessToken);
-
-//             user = response.data;
-//             localStorage.setItem("token", response.data.accessToken);
-
-//             if(response.status === 200) console.log("Sucesso");
-
-//             dispatch(editUser(user));
-//         }
-//     }
-// }
-
-// export function asyncChangePassword(user:IUser): any {
-//     return async function (dispatch: AppDispatch){
-//         const response:AxiosResponse = await APIChangePassword(user);
-
-//         if(response.status === 200) console.log("Sucesso")
-
-//         dispatch(changePassword(user));
-//     }
-// }
-
-// export function asyncChangeToken(user:IUser): any {
-//     return async function (dispatch: AppDispatch){
-//         const response:AxiosResponse = await APIChangeToken(user);
-
-//         user.accessToken = response.data;
-//         localStorage.setItem('token', response.data);
-
-//         dispatch(changeToken(user));
-//     }
-// }

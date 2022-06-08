@@ -63,6 +63,10 @@ export function asyncUserPosts(userID:number | undefined): any {
             const posts:IPost[] = response.data;
             dispatch(userPosts(posts));
         } catch (error:any) {
+            if(error['response']['data'] === undefined){
+                dispatch(setPostError('An unexpected error occurred.'));
+                return;
+            }
             if (error['response']['status'] === 403) dispatch(setPostError("Please, login to your account to see your posts."));
             else dispatch(setPostError("An error occurred while trying to get the posts."));
         }
@@ -101,6 +105,10 @@ export function asyncUpdatePost(post:IPost): any {
     
             if(response.status === 200) dispatch(updatePost(post));   
         } catch (error:any) {
+            if(error['response']['data'] === undefined){
+                dispatch(setPostError('An unexpected error occurred.'));
+                return;
+            }
             dispatch(setPostError(error['response']['data']));
         }
     }
@@ -111,10 +119,14 @@ export function asyncChangeImage(post:IPost): any {
         try {
             const response:AxiosResponse = await APIChangeImage(post);
 
-            post = {...post, image: response.data}
+            post = {...post, image: response.data};
     
             dispatch(changeImage(post));   
         } catch (error:any) {
+            if(error['response']['data'] === undefined){
+                dispatch(setPostError('An unexpected error occurred.'));
+                return;
+            }
             dispatch(setPostError(error['response']['data']));
         }
     }
@@ -127,6 +139,10 @@ export function asyncDeletePost(post:IPost): any {
 
             if(response.status === 200) dispatch(deletePost(post));   
         } catch (error:any) {
+            if(error['response']['data'] === undefined){
+                dispatch(setPostError('An unexpected error occurred.'));
+                return;
+            }
             dispatch(setPostError(error['response']['data']));
         }
     }

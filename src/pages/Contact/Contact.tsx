@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import emailjs from '@emailjs/browser';
+
 import { AiOutlineLinkedin, AiOutlineMail, AiOutlineWhatsApp } from 'react-icons/ai'
 import { AnimatedLetter } from '../../components/AnimatedLetter/AnimatedLetter'
 import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.styled'
 import { IContact } from '../../interfaces/contact'
-import { Button, FlexPrincipal, Form, Input, TextArea } from '../../styles/Global.styled'
-import { Description } from '../About/About.styled'
-import { ContactMeH3, ContactWays } from './Contact.styled'
+import { Button, Input, TextArea } from '../../styles/Global.styled'
+import { ContactMeH3, ContactPage, ContactWays, ContactForm, ContactDescription, ButtonError } from './Contact.styled'
 
 export const Contact = () => {
+    const [sent, setSent] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
     const [contact, setContact] = useState<IContact>({
         name: '',
         email: '',
@@ -21,12 +24,39 @@ export const Contact = () => {
 
     const sendMessage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        console.log(contact);
+
+        if(contact.email.length < 6 || contact.name.length < 2 || contact.subject.length < 5 || contact.message.length < 10){
+            setError('Please, fill the empty fields.');
+            return;
+        }
+        
+        const templateParams = {
+            name: contact.name,
+            email: contact.email,
+            subject: contact.subject,
+            message: contact.message
+        };
+
+        try {
+            emailjs.send(process.env.REACT_APP_SERVICE_ID || '', process.env.REACT_APP_TEMPLATE_ID || '', templateParams, process.env.REACT_APP_PUBLIC_KEY || '')
+            .then(function() {
+                setSent(true);
+            }, function(_) {
+                setError('An error occurred sending the email');
+            });   
+        } catch (error) {
+            setError('An error occurred sending the email');
+        }
     }
 
+    useEffect(() => {
+        setSent(false);
+        setError('');
+    },[])
+
     return (
-        <FlexPrincipal alignCenter={true}>
-            <Description>
+        <ContactPage>
+            <ContactDescription>
                 <AnimatedH2>
                     <AnimatedLetter letter='C' />
                     <AnimatedLetter letter='o' />
@@ -55,8 +85,8 @@ export const Contact = () => {
                         </div>
                     </a>
                 </ContactWays>
-            </Description>
-            <Form>
+            </ContactDescription>
+            <ContactForm style={{paddingRight: '40px'}}>
                 <ContactMeH3>Send me a message!</ContactMeH3>
                 <div>
                     <Input 
@@ -89,8 +119,12 @@ export const Contact = () => {
                     placeholder='Message' 
                     onChange={(e) => changeInput(e)}
                 />
-                <Button width={225} onClick={(e) => sendMessage(e)}>Send message</Button>
-            </Form>
-        </FlexPrincipal>
+                <ButtonError>
+                    {sent&& <h5 style={{color: '#bde7f5'}}>Email sent!</h5>}
+                    {error !== ''&& <h5 style={{color: '#f44336'}}>{error}</h5>}
+                    <Button width={225} onClick={(e) => sendMessage(e)}>Send message</Button>
+                </ButtonError>
+            </ContactForm>
+        </ContactPage>
     )
 }

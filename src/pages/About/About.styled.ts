@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const ProgressBarStyles = styled(motion.div)<{size:number}>`
     border-radius: 3px;
     border: 1px solid salmon;
-    width: calc(50vw/2);
+    width: 100%;
     height: 16px;
     background: linear-gradient(to left, transparent 50%, salmon 50%) right;
     background-size: ${(props) => props.size}%;
@@ -13,15 +13,9 @@ export const ProgressBarStyles = styled(motion.div)<{size:number}>`
     &:hover{
         background-position: left;
     }
-
-    @media(max-width: 767px){
-        width: 100%;
-    }
 `
 
 export const Description = styled.div`
-    width: calc(50vw - 75px);
-
     display: flex;
     flex-direction: column;
 
@@ -50,15 +44,21 @@ export const Description = styled.div`
         }
     }
 
-    @media(max-width: 767px){
+    @media(max-width: 1067px){
         width: 100vw;
 
-        padding-right: 16px;
-        padding-left: 16px;
+        padding-left: 182px;
+    }
+
+    @media(max-width: 767px){
+        padding-right: 32px;
+        padding-left: 32px;
     }
 `
 
 export const Skills = styled.div`
+    width: 35vw;
+
     display: flex;
     flex-direction: column;
 
@@ -74,12 +74,17 @@ export const Skills = styled.div`
         margin-bottom: 8px;
     }
 
+    @media(max-width: 1067px){
+        width: 100vw;
+
+        padding-left: 182px;
+        margin-top: 48px;
+    }
+
     @media(max-width: 767px){
         width: 100%;
 
-        margin-top: 48px;
-
-        padding-left: 16px;
+        padding-left: 32px;
         padding-right: 16px;
         padding-bottom: 0;
     }

@@ -121,8 +121,10 @@ export const Logo = styled.div`
 
     transition: ease-in-out 300ms;
 
-    svg{
-        font-size: 48px;
+    h1{
+        font-size: 32px;
+
+        font-family: 'Kavoon', cursive;
     }
 
     &:hover{

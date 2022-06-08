@@ -175,6 +175,3 @@ export const Form = styled.form`
         padding-right: 0;
     }
 `
-
-//#fa8072 salmon
-//#bde7f5 blue
