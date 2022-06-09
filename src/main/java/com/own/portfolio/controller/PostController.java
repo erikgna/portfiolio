@@ -17,7 +17,12 @@ import java.util.Objects;
 public class PostController{
     @Autowired
     private PostService postService;
-    private final String url = "http://127.0.0.1:3000";
+    private final String url = "https://erikna.com";
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.status(200).body("Okay");
+    }
 
     @CrossOrigin(origins = url)
     @GetMapping("/posts/pages")

@@ -16,7 +16,7 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private UserService userService;
-    private final String url = "http://127.0.0.1:3000";
+    private final String url = "https://erikna.com";
 
     @CrossOrigin(origins = url)
     @PostMapping("/user/login")
@@ -49,43 +49,6 @@ public class UserController {
         }
         catch (Exception e){
             return ResponseEntity.status(500).body(null);
-        }
-    }
-
-    @PutMapping("/user/edit-user")
-    @ResponseBody
-    public ResponseEntity<User> editUser(@RequestBody User user){
-        try{
-            userService.editUser(user);
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/").build().toUri();
-            return ResponseEntity.created(uri).body(null);
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-        }
-    }
-
-    @PostMapping("/user/password-token")
-    @ResponseBody
-    public ResponseEntity<String> passwordToken(@RequestBody User user){
-        try{
-            String response = userService.changeToken(user);
-            return ResponseEntity.status(200).body(response);
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
-        }
-    }
-
-    @PostMapping("/user/change-password")
-    @ResponseBody
-    public ResponseEntity<String> changePassword(@RequestBody User user){
-        try{
-            userService.changePassword(user);
-            return ResponseEntity.status(200).body(null);
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
         }
     }
 }

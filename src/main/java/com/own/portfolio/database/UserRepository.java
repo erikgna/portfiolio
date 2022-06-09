@@ -48,14 +48,4 @@ public class UserRepository {
 
         statement.executeUpdate();
     }
-    public void editPassword(User user) throws SQLException {
-        String sql = "UPDATE users SET password = ? WHERE email = ?";
-
-        PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setString(1, user.getPassword());
-        statement.setString(2, user.getEmail());
-
-        statement.executeUpdate();
-    }
-
 }
