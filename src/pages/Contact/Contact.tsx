@@ -7,16 +7,25 @@ import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.style
 import { IContact } from '../../interfaces/contact'
 import { Button, Input, TextArea } from '../../styles/Global.styled'
 import { ContactMeH3, ContactPage, ContactWays, ContactForm, ContactDescription, ButtonError } from './Contact.styled'
+import { RootState } from '../../redux';
+import { ILoading } from '../../interfaces/loading';
+import { useSelector, useDispatch } from 'react-redux';
+import { Loading } from '../../components/Loading/Loading';
+import { setIsLoading } from '../../redux/stores/Loading.store';
+
+const initialValue:IContact = {
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+}
 
 export const Contact = () => {
+    const loading:ILoading = useSelector((state: RootState) => state.loading);
+    const dispatch = useDispatch();
     const [sent, setSent] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const [contact, setContact] = useState<IContact>({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-    });
+    const [contact, setContact] = useState<IContact>(initialValue);
 
     const changeInput = (event:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         setContact({ ...contact, [event.target.name]: event.target.value });
@@ -37,16 +46,20 @@ export const Contact = () => {
             message: contact.message
         };
 
+        dispatch(setIsLoading(true));
         try {
             emailjs.send(process.env.REACT_APP_SERVICE_ID || '', process.env.REACT_APP_TEMPLATE_ID || '', templateParams, process.env.REACT_APP_PUBLIC_KEY || '')
             .then(function() {
                 setSent(true);
             }, function(_) {
                 setError('An error occurred sending the email');
-            });   
+            });
+            setContact(initialValue);
         } catch (error) {
+            dispatch(setIsLoading(false));
             setError('An error occurred sending the email');
         }
+        dispatch(setIsLoading(false));
     }
 
     useEffect(() => {
@@ -122,7 +135,11 @@ export const Contact = () => {
                 <ButtonError>
                     {sent&& <h5 style={{color: '#bde7f5'}}>Email sent!</h5>}
                     {error !== ''&& <h5 style={{color: '#f44336'}}>{error}</h5>}
-                    <Button width={225} onClick={(e) => sendMessage(e)}>Send message</Button>
+                    {!loading.isLoading?
+                        <Button width={225} onClick={(e) => sendMessage(e)}>Send message</Button>
+                        :
+                        <Loading></Loading>
+                    }        
                 </ButtonError>
             </ContactForm>
         </ContactPage>

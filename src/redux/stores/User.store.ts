@@ -7,6 +7,7 @@ import { AxiosResponse } from 'axios';
 import Cookies from 'universal-cookie';
 import { asyncUserPosts } from './Post.store';
 import { setAuthError } from './Error.store';
+import { setIsLoading } from './Loading.store';
 
 const cookies = new Cookies();
 
@@ -35,6 +36,7 @@ export default user.reducer;
 export function asyncLogin(user:IUser): any {
     return async function (dispatch: AppDispatch){
         try {
+            dispatch(setIsLoading(true));
              const response:AxiosResponse = await APISignin(user);
 
              cookies.set('Authorization', response.data['Authorization'], {
@@ -49,9 +51,11 @@ export function asyncLogin(user:IUser): any {
 
             dispatch(login(response.data));
             dispatch(asyncUserPosts(response.data['userID']));
+            dispatch(setIsLoading(false));
 
-            window.location.href = 'http://127.0.0.1:3000/create-post';
+            window.location.href = 'https://erikna.com/create-post';
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             if(error['response']['data'] === undefined){
                 dispatch(setAuthError('An unexpected error occurred.'));
                 return;
@@ -64,10 +68,12 @@ export function asyncLogin(user:IUser): any {
 export function asyncRegister(user:IUser): any {
     return async function (dispatch: AppDispatch){
         try {
+            dispatch(setIsLoading(true));
             const response:AxiosResponse = await APISignup(user);
-             
+            dispatch(setIsLoading(false));
             if(response.status === 200) return true;
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             if(error['response']['data'] === undefined){
                 dispatch(setAuthError('An unexpected error occurred.'));
                 return;

@@ -3,12 +3,14 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import userReducer from './stores/User.store';
 import postReducer from './stores/Post.store';
 import errorReducer from './stores/Error.store';
+import loadingReducer from './stores/Loading.store';
 
 const store = configureStore({
     reducer: {
         user: userReducer,
         post: postReducer,
-        error: errorReducer
+        error: errorReducer,
+        loading: loadingReducer,
     }
 });
 

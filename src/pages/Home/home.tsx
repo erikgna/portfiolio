@@ -55,7 +55,7 @@ export const Home = () => {
           </a>          
         </InformationSection>
         <DObject>
-          <Suspense fallback={ <div>Loading...</div> }>
+          <Suspense>
             <Canvas style={{width: 'calc(45vw - 75px)', height: '100vh'}} >
               <Earth />
             </Canvas>

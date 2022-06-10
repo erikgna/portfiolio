@@ -14,21 +14,26 @@ import { FlexPrincipal, Button, Input, TextArea } from '../../styles/Global.styl
 import { AnimatedH2 } from '../../components/AnimatedLetter/AnimatedLetter.styled';
 import { CreatePostStyle, InputImage, ColInput, YourPosts, ErrorMessage, FormPost } from './CreatePost.styled';
 import { IError } from '../../interfaces/error';
+import { ILoading } from '../../interfaces/loading';
+import { Loading } from '../../components/Loading/Loading';
+
+const initialValue:IPost = { 
+    image: undefined,
+    title: '',
+    description: ''
+}
 
 export const CreatePost = () => {
     const user:IUser = useSelector((state: RootState) => state.user);
     const posts:IPost[] = useSelector((state: RootState) => state.post);
     const error:IError = useSelector((state: RootState) => state.error);
+    const loading:ILoading = useSelector((state: RootState) => state.loading);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [isCreating, setIsCreating] = useState<boolean>(true);
 
-    const [post, setPost] = useState<IPost>({ 
-        image: undefined,
-        title: '',
-        description: ''
-    })
+    const [post, setPost] = useState<IPost>(initialValue);
 
     const inputChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         event.preventDefault();
@@ -44,6 +49,7 @@ export const CreatePost = () => {
         event.preventDefault();
 
         isCreating? dispatch(asyncNewPost(post, user.userID)) : dispatch(asyncUpdatePost(post));
+        setPost(initialValue);
     }
 
     const updatePost = (post:IPost) => {
@@ -105,16 +111,24 @@ export const CreatePost = () => {
                         </InputImage>
                     </ColInput>
                     <ErrorMessage style={{marginTop: '-24px', marginBottom: '48px'}}>{error.postErrorMessage}</ErrorMessage>
-                    <Button width={225}>Send Post</Button>
+                    {!loading.isLoading?
+                        <Button width={225}>Send Post</Button>
+                        :
+                        <Loading />
+                    }
                 </FormPost>
                 }
 
                 {user.name&& 
                     <YourPosts>
                         <h3>Here you can see all your posts and edit it</h3>
-                        {posts.map((post, index) => {
-                            return <YourPost key={index} post={post} buttons={{deletePost, updatePost}} />
-                        })}
+                        {!loading.isLoading?
+                            posts.map((post, index) => {
+                                return <YourPost key={index} post={post} buttons={{deletePost, updatePost}} />
+                            })
+                            : 
+                            <Loading />
+                        }
                     </YourPosts>
                 }
 

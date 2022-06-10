@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { APIPagesPosts } from '../../api/post';
+import { Loading } from '../../components/Loading/Loading';
+import { ILoading } from '../../interfaces/loading';
 import { IPost } from '../../interfaces/post';
 import { RootState } from '../../redux';
 import { asyncAllPosts } from '../../redux/stores/Post.store';
@@ -10,6 +12,7 @@ import { NoPost, PagesDiv, PostImage, PostsStyle, PostStyle } from './Posts.styl
 
 export const Posts = () => {
     const posts:IPost[] = useSelector((state: RootState) => state.post);
+    const loading:ILoading = useSelector((state: RootState) => state.loading);
     const dispatch = useDispatch();
     const isInitialMount = useRef(true);
 
@@ -36,6 +39,7 @@ export const Posts = () => {
 
     return (
         <FlexPrincipal alignCenter={true}>
+        {!loading.isLoading?
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 <PostsStyle>
                     {posts.length === 0? <NoPost>No posts found</NoPost>:
@@ -63,6 +67,9 @@ export const Posts = () => {
                         })}
                     </PagesDiv>
             </div>
+            :
+            <Loading></Loading>
+        }
         </FlexPrincipal>
     )
 }

@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AxiosResponse } from 'axios';
 import { setPostError } from './Error.store';
-// import { setAuthError } from './Error.store';
+import { setIsLoading } from './Loading.store';
 
 const initialState:IPost[] | number = [];
 
@@ -44,25 +44,31 @@ export default post.reducer;
 
 export function asyncAllPosts(page:number): any {
     return async function (dispatch: AppDispatch){
+        dispatch(setIsLoading(true));
         try {
             const response:AxiosResponse = await APIAllPosts(page);
 
             const posts:IPost[] = response.data;
             dispatch(allPosts(posts));
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             dispatch(setPostError("An error occurred while trying to get the posts."));
         }
+        dispatch(setIsLoading(false));
     }
 }
 
 export function asyncUserPosts(userID:number | undefined): any {
     return async function (dispatch: AppDispatch){
         try {
+            dispatch(setIsLoading(true));
             const response:AxiosResponse = await APIUserPosts(userID);
 
             const posts:IPost[] = response.data;
             dispatch(userPosts(posts));
+            dispatch(setIsLoading(false));
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             if(error['response']['data'] === undefined){
                 dispatch(setPostError('An unexpected error occurred.'));
                 return;
@@ -76,6 +82,7 @@ export function asyncUserPosts(userID:number | undefined): any {
 export function asyncNewPost(post:IPost, userID:number | undefined): any {
     return async function (dispatch: AppDispatch){
         try {
+            dispatch(setIsLoading(true));
             const tempImage:File | string | undefined = post?.image;
             post.image = "";
             const response:AxiosResponse = await APINewPost(post, userID);
@@ -85,8 +92,10 @@ export function asyncNewPost(post:IPost, userID:number | undefined): any {
                 dispatch(asyncChangeImage(post));
             }
             
+            dispatch(setIsLoading(false));
             if(response.status === 201) dispatch(newPost(post)); 
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             if (error['response']['status'] === 400) dispatch(setPostError("Please, complete the form."));
             else if (error['response']['status'] === 403) dispatch(setPostError("Login to your account to create a post."));
             else if (error['response']['status'] === 406) dispatch(setPostError("An error ocurred while adding the post image."));
@@ -98,13 +107,16 @@ export function asyncNewPost(post:IPost, userID:number | undefined): any {
 export function asyncUpdatePost(post:IPost): any {
     return async function (dispatch: AppDispatch){
         try {
+            dispatch(setIsLoading(true));
             if(post.image) dispatch(asyncChangeImage(post));
             post.image = "";
     
             const response:AxiosResponse = await APIUpdatePost(post);        
     
+            dispatch(setIsLoading(false));
             if(response.status === 200) dispatch(updatePost(post));   
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             if(error['response']['data'] === undefined){
                 dispatch(setPostError('An unexpected error occurred.'));
                 return;
@@ -117,12 +129,15 @@ export function asyncUpdatePost(post:IPost): any {
 export function asyncChangeImage(post:IPost): any {
     return async function (dispatch: AppDispatch){
         try {
+            dispatch(setIsLoading(true));
             const response:AxiosResponse = await APIChangeImage(post);
 
             post = {...post, image: response.data};
     
+            dispatch(setIsLoading(false));
             dispatch(changeImage(post));   
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             if(error['response']['data'] === undefined){
                 dispatch(setPostError('An unexpected error occurred.'));
                 return;
@@ -135,10 +150,13 @@ export function asyncChangeImage(post:IPost): any {
 export function asyncDeletePost(post:IPost): any {
     return async function (dispatch: AppDispatch){
         try {
+            dispatch(setIsLoading(true));
             const response:AxiosResponse = await APIDeletePost(post);
 
+            dispatch(setIsLoading(false));
             if(response.status === 200) dispatch(deletePost(post));   
         } catch (error:any) {
+            dispatch(setIsLoading(false));
             if(error['response']['data'] === undefined){
                 dispatch(setPostError('An unexpected error occurred.'));
                 return;

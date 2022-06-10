@@ -11,7 +11,6 @@ export const YourPost: React.FC<{
   return (
     <YourPostStyle>
         <Image style={{backgroundImage: `url('${post.image}')`}}>
-        {/* <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/simulated_bh.jpg" alt="Yourpost" /> */}
         </Image>
         <h5>{post.title}</h5>
         <p>{post.description}</p>

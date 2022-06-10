@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies()
 
-const api:AxiosInstance = axios.create({ baseURL: "http://localhost:8080" })
+const api:AxiosInstance = axios.create({ baseURL: "https://erikna-poertfolio-hellospring.azuremicroservices.io" })
 
 api.interceptors.request.use((req) => {
     req.headers = {
